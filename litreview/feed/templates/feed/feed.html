@@ -1,0 +1,12 @@
+{% extends 'feed/base.html' %}
+
+{% block content %}
+
+  <h1>Page feed</h1>
+  <p>Listing de tickets abonnements + soi-même</p>
+  <!-- TODO : liste des groupes -->
+  {% for ticket in tickets %}
+    <p>{{ ticket.title }}</p>
+  {% endfor %}
+
+{% endblock %}

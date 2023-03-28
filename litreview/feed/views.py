@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
+from feed.models import Ticket
+
 # Create your views here.
 def feed(request):
     """
@@ -8,7 +10,8 @@ def feed(request):
     l'utilisateur, ainsi que ses propres tickets et critiques, le tout trié
     par ordre décroissant de date de création
     """
-    return HttpResponse("<h1>Hi Babe</h1>")
+    tickets = Ticket.objects.all()
+    return render(request,'feed/feed.html',{'tickets' : tickets})
 
 def create_ticket(request):
     """
@@ -23,3 +26,6 @@ def create_critic(request, ticket_id=None):
     de ticket imposée si ticket_id=None. Titre, note et commentaire.
     """
     return HttpResponse("<h1>Critic creation here</h1>")
+
+def my_posts(request):
+    pass

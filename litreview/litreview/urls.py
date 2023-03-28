@@ -22,5 +22,6 @@ urlpatterns = [
     path('feed/', views.feed),
     path('create_ticket', views.create_ticket),
     path('create_critic', views.create_critic),
-    path('create_critic/<int:ticket_id>/', views.create_critic)
+    path('create_critic/<int:ticket_id>/', views.create_critic),
+    path('my_posts', views.my_posts)
 ]
