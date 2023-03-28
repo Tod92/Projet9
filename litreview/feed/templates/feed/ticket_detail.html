@@ -3,7 +3,11 @@
 {% block content %}
 
   <h1>Détail du ticket {{ ticket.title }}</h1>
-  <p>{{ ticket.id }}</p>
+  <p>Titre : {{ ticket.title }}</p>
+  <p>id :{{ ticket.id }}</p>
+  <p>descritption :{{ ticket.description }}</p>
+  <a href="{% url 'ticket-update' ticket.id %}">Modifier ce ticket</a>
+  <a href="{% url 'feed'%}">Revenir à la liste de tickets</a>
 
 
 {% endblock %}

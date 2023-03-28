@@ -21,7 +21,7 @@ def ticket_detail(request, ticket_id=None):
     ticket = Ticket.objects.get(id=ticket_id)
     return render(request,'feed/ticket_detail.html', {'ticket' : ticket})
 
-def create_ticket(request):
+def ticket_create(request):
     """
     Page de création d'un ticket (demande de critique) avec titre, description
     et image.
@@ -39,11 +39,32 @@ def create_ticket(request):
                   'feed/create_ticket.html',
                   {'form' : form})
 
+def ticket_update(request, ticket_id):
+    ticket = Ticket.objects.get(id=ticket_id)
+    if request.method == 'POST':
+        form = TicketForm(request.POST, instance=ticket)
+        if form.is_valid():
+            ticket = form.save()
+            return redirect('ticket',ticket.id)
+    else:
+        form = TicketForm(instance=ticket)
+    return render(request,
+                  'feed/update_ticket.html',
+                  {'form' : form})
+
+def ticket_delete(request, ticket_id=None):
+    ticket = Ticket.objects.get(id=ticket_id)
+    if request.method == 'POST':
+        ticket.delete()
+        return redirect('feed')
+    
+    return render(request,'feed/ticket_delete.html', {'ticket' : ticket})
+
 def form_sent(request):
     pass
     return render(request, 'feed/formsent.html')
 
-def create_critic(request, ticket_id=None):
+def critic_create(request, ticket_id=None):
     """
     Page de création d'une critique en réponse au ticket selectionné, création
     de ticket imposée si ticket_id=None. Titre, note et commentaire.
