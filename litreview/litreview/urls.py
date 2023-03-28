@@ -20,8 +20,10 @@ from feed import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('feed/', views.feed),
-    path('create_ticket', views.create_ticket),
-    path('create_critic', views.create_critic),
-    path('create_critic/<int:ticket_id>/', views.create_critic),
-    path('my_posts', views.my_posts)
+    path('tickets/add/', views.create_ticket),
+    path('critics/add/', views.create_critic),
+    path('critics/add/<int:ticket_id>/', views.create_critic),
+    path('tickets/', views.my_posts),
+    path('tickets/<int:ticket_id>/', views.ticket_detail,name="ticket"),
+    path('formsent/', views.form_sent,name='form_sent')
 ]

@@ -8,7 +8,7 @@ class Ticket(models.Model):
         return self.title
     # Your Ticket model definition goes here
     title = models.CharField(max_length=30)
-    description = models.fields.CharField(max_length=1000)
+    description = models.CharField(max_length=1000)
     user = models.ForeignKey(
         to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     pass

@@ -1,7 +1,11 @@
 from django.shortcuts import render
+from django.shortcuts import redirect
+
 from django.http import HttpResponse
 
 from feed.models import Ticket
+
+from feed.forms import CreateTicketForm, TicketForm
 
 # Create your views here.
 def feed(request):
@@ -13,12 +17,31 @@ def feed(request):
     tickets = Ticket.objects.all()
     return render(request,'feed/feed.html',{'tickets' : tickets})
 
+def ticket_detail(request, ticket_id=None):
+    ticket = Ticket.objects.get(id=ticket_id)
+    return render(request,'feed/ticket_detail.html', {'ticket' : ticket})
+
 def create_ticket(request):
     """
     Page de création d'un ticket (demande de critique) avec titre, description
     et image.
     """
-    return HttpResponse("<h1>Ticket creation here</h1>")
+    if request.method == 'POST':
+    # créer une instance de notre formulaire et le remplir avec les données POST
+        form = TicketForm(request.POST)
+        if form.is_valid():
+            ticket = form.save()
+            return redirect('ticket',ticket.id)
+    else:
+        form = TicketForm()
+
+    return render(request,
+                  'feed/create_ticket.html',
+                  {'form' : form})
+
+def form_sent(request):
+    pass
+    return render(request, 'feed/formsent.html')
 
 def create_critic(request, ticket_id=None):
     """
@@ -28,4 +51,4 @@ def create_critic(request, ticket_id=None):
     return HttpResponse("<h1>Critic creation here</h1>")
 
 def my_posts(request):
-    pass
+    return HttpResponse("<h1>My posts</h1>")
