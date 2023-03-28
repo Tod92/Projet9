@@ -16,9 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from feed import views
+import authentication.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', authentication.views.login_page, name='login'),
     path('feed/', views.feed, name='feed'),
     path('tickets/add/', views.ticket_create),
     path('tickets/', views.my_posts),
