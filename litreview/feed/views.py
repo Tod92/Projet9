@@ -57,7 +57,7 @@ def ticket_delete(request, ticket_id=None):
     if request.method == 'POST':
         ticket.delete()
         return redirect('feed')
-    
+
     return render(request,'feed/ticket_delete.html', {'ticket' : ticket})
 
 def form_sent(request):
@@ -72,4 +72,5 @@ def critic_create(request, ticket_id=None):
     return HttpResponse("<h1>Critic creation here</h1>")
 
 def my_posts(request):
+    pass
     return HttpResponse("<h1>My posts</h1>")
