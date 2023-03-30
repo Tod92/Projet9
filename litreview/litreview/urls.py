@@ -20,6 +20,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.views import PasswordChangeView, PasswordChangeDoneView
 
 from feed import views
+from authentication import views as authviews
 
 
 urlpatterns = [
@@ -28,6 +29,7 @@ urlpatterns = [
                                template_name='authentication/login.html',
                                redirect_authenticated_user=True), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
+    path('signup/', authviews.signup_page, name='signup'),
     path('feed/', views.feed, name='feed'),
     path('tickets/add/', views.ticket_create),
     path('tickets/<int:ticket_id>/', views.ticket_detail,name="ticket"),
