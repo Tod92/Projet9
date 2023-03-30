@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.contrib.auth.views import LoginView, LogoutView
+# TODO ajout feat change password
 from django.contrib.auth.views import PasswordChangeView, PasswordChangeDoneView
 
 from feed import views
@@ -29,11 +30,11 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     path('feed/', views.feed, name='feed'),
     path('tickets/add/', views.ticket_create),
-    path('tickets/', views.my_posts),
     path('tickets/<int:ticket_id>/', views.ticket_detail,name="ticket"),
     path('tickets/<int:ticket_id>/update/', views.ticket_update, name='ticket-update'),
     path('tickets/<int:ticket_id>/delete/', views.ticket_delete, name='ticket-delete'),
-    path('critics/add/', views.critic_create),
-    path('critics/add/<int:ticket_id>/', views.critic_create),
-    path('formsent/', views.form_sent,name='form_sent')
+    path('reviews/add/', views.review_create),
+    path('reviews/<int:review_id>/', views.review_detail,name="review"),
+    path('reviews/<int:review_id>/update/', views.review_update, name='review-update'),
+    path('reviews/<int:review_id>/delete/', views.review_delete, name='review-delete')
 ]

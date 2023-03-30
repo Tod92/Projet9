@@ -3,9 +3,9 @@ from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 
-from feed.models import Ticket
+from feed.models import Ticket, Review
 
-from feed.forms import CreateTicketForm, TicketForm
+from feed.forms import TicketForm, ReviewForm
 
 
 
@@ -21,10 +21,12 @@ def feed(request):
     tickets = Ticket.objects.all()
     return render(request,'feed/feed.html',{'tickets' : tickets})
 
+
 def ticket_detail(request, ticket_id=None):
     ticket = Ticket.objects.get(id=ticket_id)
     return render(request,'feed/ticket_detail.html', {'ticket' : ticket})
 
+@login_required
 def ticket_create(request):
     """
     Page de création d'un ticket (demande de critique) avec titre, description
@@ -40,9 +42,10 @@ def ticket_create(request):
         form = TicketForm()
 
     return render(request,
-                  'feed/create_ticket.html',
+                  'feed/ticket_create.html',
                   {'form' : form})
 
+@login_required
 def ticket_update(request, ticket_id):
     ticket = Ticket.objects.get(id=ticket_id)
     if request.method == 'POST':
@@ -53,9 +56,10 @@ def ticket_update(request, ticket_id):
     else:
         form = TicketForm(instance=ticket)
     return render(request,
-                  'feed/update_ticket.html',
+                  'feed/ticket_update.html',
                   {'form' : form})
 
+@login_required
 def ticket_delete(request, ticket_id=None):
     ticket = Ticket.objects.get(id=ticket_id)
     if request.method == 'POST':
@@ -64,17 +68,47 @@ def ticket_delete(request, ticket_id=None):
 
     return render(request,'feed/ticket_delete.html', {'ticket' : ticket})
 
-def form_sent(request):
-    pass
-    return render(request, 'feed/formsent.html')
 
-def critic_create(request, ticket_id=None):
+def review_detail(request, review_id=None):
+    review = Review.objects.get(id=review_id)
+    return render(request,'feed/review_detail.html', {'review' : review})
+
+@login_required
+def review_create(request):
     """
     Page de création d'une critique en réponse au ticket selectionné, création
     de ticket imposée si ticket_id=None. Titre, note et commentaire.
     """
-    return HttpResponse("<h1>Critic creation here</h1>")
+    if request.method == 'POST':
+    # créer une instance de notre formulaire et le remplir avec les données POST
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save()
+            return redirect('review',review.id)
+    else:
+        form = ReviewForm()
 
-def my_posts(request):
-    pass
-    return HttpResponse("<h1>My posts</h1>")
+    return render(request,
+                  'feed/review_create.html',
+                  {'form' : form})
+@login_required
+def review_update(request, review_id):
+    review = Review.objects.get(id=review_id)
+    if request.method == 'POST':
+        form = ReviewForm(request.POST, instance=review)
+        if form.is_valid():
+            review = form.save()
+            return redirect('review',review.id)
+    else:
+        form = ReviewForm(instance=review)
+    return render(request,
+                  'feed/review_update.html',
+                  {'form' : form})
+@login_required
+def review_delete(request, review_id=None):
+    review = Review.objects.get(id=review_id)
+    if request.method == 'POST':
+        review.delete()
+        return redirect('feed')
+
+    return render(request,'feed/review_delete.html', {'review' : review})

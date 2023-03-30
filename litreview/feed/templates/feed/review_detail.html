@@ -1,0 +1,13 @@
+{% extends 'feed/base.html' %}
+
+{% block content %}
+
+  <h1>Détail de la critique {{ review.ticket }}</h1>
+  <p>Headline : {{ review.headline }}</p>
+  <p>id :{{ review.id }}</p>
+  <p>corps :{{ review.body }}</p>
+  <a href="{% url 'review-update' review.id %}">Modifier cette critique</a>
+  <a href="{% url 'feed'%}">Revenir à la liste des flux</a>
+
+
+{% endblock %}
