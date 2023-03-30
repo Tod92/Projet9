@@ -11,6 +11,7 @@ class Ticket(models.Model):
     description = models.CharField(max_length=1000)
     user = models.ForeignKey(
         to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    time_created = models.DateTimeField(auto_now_add=True)
     pass
 
 

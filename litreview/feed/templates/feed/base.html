@@ -6,8 +6,20 @@
       <link rel="stylesheet" href="{% static 'feed/styles.css' %}" />
     </head>
     <body>
+      <header>
+        <p>LITReview</p>
+        {% if user.is_authenticated %}
+        <p>Welcome, {{ user.get_username }}. Thanks for logging in.
+        <a href="{% url 'logout' %}">[logout]</a></p>
 
+        {% else %}
+        <p>Welcome, new user. Please log in.</p>
+        {% endif %}
+      </header>
+      <main>
         {% block content %}{% endblock %}
-
+      </main>
+      <footer>
+      </footer>
     </body>
 </html>

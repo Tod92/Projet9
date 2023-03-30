@@ -15,12 +15,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.views import PasswordChangeView, PasswordChangeDoneView
+
 from feed import views
-import authentication.views
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', authentication.views.login_page, name='login'),
+    path('', LoginView.as_view(
+                               template_name='authentication/login.html',
+                               redirect_authenticated_user=True), name='login'),
+    path('logout/', LogoutView.as_view(), name='logout'),
     path('feed/', views.feed, name='feed'),
     path('tickets/add/', views.ticket_create),
     path('tickets/', views.my_posts),

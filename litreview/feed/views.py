@@ -1,13 +1,17 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
-
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 
 from feed.models import Ticket
 
 from feed.forms import CreateTicketForm, TicketForm
 
+
+
+
 # Create your views here.
+@login_required
 def feed(request):
     """
     Page de flux avec les tickets et critiques fonction des abonnements de

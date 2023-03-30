@@ -28,6 +28,9 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 AUTH_USER_MODEL = 'authentication.User'
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'feed'
+LOGOUT_REDIRECT_URL = 'login'
 # Application definition
 
 INSTALLED_APPS = [
