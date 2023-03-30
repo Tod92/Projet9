@@ -7,10 +7,13 @@
   <!-- TODO : liste des groupes -->
   <ul>
     {% for ticket in tickets %}
+    {% if ticket.user == user %}
     <li>
       <a href="{% url 'ticket' ticket.id %}">{{ ticket.title }}</a>
+      Crée par {{ ticket.user }}
       - <a href="{% url 'ticket-update' ticket.id %}">[modifier]</a>
     </li>
+    {% endif %}
     {% endfor %}
   </ul>
 {% endblock %}

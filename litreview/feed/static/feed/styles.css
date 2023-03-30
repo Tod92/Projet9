@@ -1,13 +1,49 @@
 body {
-  background: #a8a1a1;
+  background: #e8dcdc;
 }
 
-header {
+
+
+#container {
+  position: relative;
   width: 100%;
-  background: #7d7171;;
+  min-width: 980px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+#branding {
+  float: left;
+}
+
+#header {
+  background-color: #7995ae;
+  width: auto;
+  height: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  color : 1;
+  overflow: hidden;
+}
+
+#user-tools {
+  float: right;
+  margin: 20px 0 0 20px;
+  text-align: right;
+}
+
+#branding h1 {
+  padding: 0;
+  margin: 0 20px 0 0;
+  font-weight: 300;
+  font-size: 1.5rem;
   color: rgb(196, 190, 150);
-  height: 115px;
-  padding-top: 5px;
-  font-weight: 700;
-  font-size: 1.5em;
+}
+
+#branding h1 a:visited {
+  color: rgb(196, 190, 150);
 }
