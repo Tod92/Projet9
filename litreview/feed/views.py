@@ -36,6 +36,8 @@ def ticket_create(request):
     # créer une instance de notre formulaire et le remplir avec les données POST
         form = TicketForm(request.POST)
         if form.is_valid():
+            ticket = form.save(commit=False)
+            ticket.user = request.user
             ticket = form.save()
             return redirect('ticket',ticket.id)
     else:
@@ -97,6 +99,8 @@ def review_update(request, review_id):
     if request.method == 'POST':
         form = ReviewForm(request.POST, instance=review)
         if form.is_valid():
+            review = form.save(commit=False)
+            review.user = request.user
             review = form.save()
             return redirect('review',review.id)
     else:

@@ -17,5 +17,5 @@ class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
         # fields = '__all__'
-        fields = ('ticket','rating', 'headline')
+        fields = ('ticket','rating', 'headline', 'body')
         # exclude = ('user','descrition')
