@@ -1,32 +1,33 @@
 {% load static %}
-
 <html>
     <head>
-      <title>LITReview</title>
-      <link rel="stylesheet" href="{% static 'feed/styles.css' %}" />
+        <title>LiteReview</title>
+        <link rel="stylesheet" href="{% static 'feed/app.css' %}">
     </head>
     <body>
-      <div id="container">
-        <div id="header">
-          <div id="branding">
-            <h1 id="site-name">
-              <a href="{% url 'feed' %}">LITReview</a>
-            </h1>
-          </div>
-          <div id="user-tools">
+        <div class="sidebar">
+            <h1>LiteReview</h1>
             {% if user.is_authenticated %}
-            Welcome, <strong>{{ user.get_username }}</strong>.
-            <a href="{% url 'logout' %}">[logout]</a>
+                <p>Bonjour, {{ user }} !</p>
+                {% if user.profile_photo %}
+                    <img class="avatar" src={{ user.profile_photo.url }}>
+                {% else %}
+                    <img class="avatar" src="{% static 'feed/images/default_profile.png'%}">
+                {% endif %}
+                <p><a href="{% url 'feed' %}">Mes flux</a></p>
+                <p><a href="{% url 'ticket-add' %}">Créer un ticket</a></p>
+                <p><a href="{% url 'review-add' %}">Créer une critique</a></p>
+                <p><a href="{% url 'upload-profile-photo' %}">Changer photo de profil</a></p>
+                <p><a href="{% url 'password-change' %}">Changer le mot de passe</a></p>
+                <p><a href="{% url 'logout' %}">Se déconnecter</a></p>
+
+
             {% else %}
-            <p>You are not connected. Please log in.</p>
+                <p> Merci de vous connecter afin d'accèder aux fonctionnalités de l'application </p>
             {% endif %}
-          </div>
         </div>
-        <main>
-          {% block content %}{% endblock %}
-        </main>
-        <footer>
-        </footer>
-      </div>
+        <div class="main">
+            {% block content %}{% endblock content %}
+        </div>
     </body>
 </html>

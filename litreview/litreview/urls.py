@@ -16,8 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.contrib.auth.views import LoginView, LogoutView
-# TODO ajout feat change password
 from django.contrib.auth.views import PasswordChangeView, PasswordChangeDoneView
+from django.conf import settings
+from django.conf.urls.static import static
 
 from feed import views
 from authentication import views as authviews
@@ -25,18 +26,31 @@ from authentication import views as authviews
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', LoginView.as_view(
-                               template_name='authentication/login.html',
-                               redirect_authenticated_user=True), name='login'),
+    path('',
+         LoginView.as_view(
+                           template_name='authentication/login.html',
+                           redirect_authenticated_user=True), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('signup/', authviews.signup_page, name='signup'),
+    path('password/',
+         PasswordChangeView.as_view(template_name='authentication/password.html'),
+         name='password-change'),
+    path('password/done',
+         PasswordChangeDoneView.as_view(template_name='authentication/passchangedone.html'),
+         name='password_change_done'),
+    path('upload_profile_photo/',authviews.upload_profile_photo,name='upload-profile-photo'),
     path('feed/', views.feed, name='feed'),
-    path('tickets/add/', views.ticket_create),
+    path('tickets/add/', views.ticket_create, name='ticket-add'),
     path('tickets/<int:ticket_id>/', views.ticket_detail,name="ticket"),
     path('tickets/<int:ticket_id>/update/', views.ticket_update, name='ticket-update'),
     path('tickets/<int:ticket_id>/delete/', views.ticket_delete, name='ticket-delete'),
-    path('reviews/add/', views.review_create),
+    path('reviews/add/', views.review_create, name='review-add'),
     path('reviews/<int:review_id>/', views.review_detail,name="review"),
     path('reviews/<int:review_id>/update/', views.review_update, name='review-update'),
-    path('reviews/<int:review_id>/delete/', views.review_delete, name='review-delete')
+    path('reviews/<int:review_id>/delete/', views.review_delete, name='review-delete'),
+    path('photos/add/', views.photo_upload, name='photo_upload'),
+    path('photos/', views.photo_feed)
 ]
+if settings.DEBUG:
+    urlpatterns += static(
+        settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

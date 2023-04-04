@@ -1,0 +1,7 @@
+{% extends 'feed/base.html' %}
+{% block content %}
+    <h1>Votre mot de passe a été changé avec succès !</h1>
+
+    <p><a href="{% url 'login' %}">Retour à la page de connexion</a>
+    <p>Pas de compte ? <a href="{% url 'signup' %}">Inscrivez-vous maintenant !</a></p>
+{% endblock content %}

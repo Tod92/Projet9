@@ -3,9 +3,8 @@ from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 
-from feed.models import Ticket, Review
-
-from feed.forms import TicketForm, ReviewForm
+from feed.models import Ticket, Review, Photo
+from feed.forms import TicketForm, ReviewForm, PhotoForm
 
 
 
@@ -116,3 +115,24 @@ def review_delete(request, review_id=None):
         return redirect('feed')
 
     return render(request,'feed/review_delete.html', {'review' : review})
+
+
+@login_required
+def photo_upload(request):
+    form = PhotoForm()
+    if request.method == 'POST':
+        form = PhotoForm(request.POST, request.FILES)
+        if form.is_valid():
+            photo = form.save(commit=False)
+            # set the uploader to the user before saving the model
+            photo.user = request.user
+            # now we can save
+            photo.save()
+            return redirect('feed')
+    return render(request, 'feed/photo_upload.html', context={'form': form})
+
+
+@login_required
+def photo_feed(request):
+    photos = Photo.objects.all()
+    return render(request, 'feed/photo_feed.html', context={'photos': photos})

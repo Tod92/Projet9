@@ -5,6 +5,9 @@
   <h1>Détail du ticket {{ ticket.title }}</h1>
   <p>Titre : {{ ticket.title }}</p>
   <p>id :{{ ticket.id }}</p>
+  {% if ticket.photo %}
+  <p> {{ ticket.photo }} </p>
+  {% endif %}
   <p>descritption :{{ ticket.description }}</p>
   <a href="{% url 'ticket-update' ticket.id %}">Modifier ce ticket</a>
   <a href="{% url 'feed'%}">Revenir à la liste de tickets</a>

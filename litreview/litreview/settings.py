@@ -29,9 +29,15 @@ ALLOWED_HOSTS = []
 
 AUTH_USER_MODEL = 'authentication.User'
 LOGIN_URL = 'login'
+# Si tentative d'accès à la page de login alors que deja log, redirection
+# via LoginView.as_view(... redirect_authenticated_user=True)
 LOGIN_REDIRECT_URL = 'feed'
+# redirection après avoir logout
 LOGOUT_REDIRECT_URL = 'login'
 # Application definition
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR.joinpath('media/')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
