@@ -6,7 +6,7 @@
   <p>Titre : {{ ticket.title }}</p>
   <p>id :{{ ticket.id }}</p>
   {% if ticket.photo %}
-  <p> {{ ticket.photo }} </p>
+  <p><img src= '{{ ticket.photo.image.url }}'></p>
   {% endif %}
   <p>descritption :{{ ticket.description }}</p>
   <a href="{% url 'ticket-update' ticket.id %}">Modifier ce ticket</a>

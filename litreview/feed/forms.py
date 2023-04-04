@@ -10,7 +10,7 @@ class TicketForm(forms.ModelForm):
     class Meta:
         model = Ticket
         # fields = '__all__'
-        fields = ('title', 'description', 'photo')
+        fields = ('title', 'description')
         # exclude = ('user','descrition')
 
 class ReviewForm(forms.ModelForm):

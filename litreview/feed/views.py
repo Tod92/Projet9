@@ -33,32 +33,53 @@ def ticket_create(request):
     """
     if request.method == 'POST':
     # créer une instance de notre formulaire et le remplir avec les données POST
-        form = TicketForm(request.POST)
-        if form.is_valid():
-            ticket = form.save(commit=False)
+        ticket_form = TicketForm(request.POST)
+        photo_form = PhotoForm(request.POST, request.FILES)
+        if all([ticket_form.is_valid(), photo_form.is_valid()]):
+            photo = photo_form.save(commit=False)
+            photo.user = request.user
+            photo.save()
+            ticket = ticket_form.save(commit=False)
             ticket.user = request.user
-            ticket = form.save()
+            ticket.photo = photo
+            ticket.save()
             return redirect('ticket',ticket.id)
     else:
-        form = TicketForm()
-
+        ticket_form = TicketForm()
+        photo_form = PhotoForm()
+    context = {
+    'ticket_form': ticket_form,
+    'photo_form': photo_form
+    }
     return render(request,
                   'feed/ticket_create.html',
-                  {'form' : form})
+                  context)
 
 @login_required
 def ticket_update(request, ticket_id):
     ticket = Ticket.objects.get(id=ticket_id)
     if request.method == 'POST':
-        form = TicketForm(request.POST, instance=ticket)
-        if form.is_valid():
-            ticket = form.save()
+        ticket_form = TicketForm(request.POST, instance=ticket)
+        photo_form = PhotoForm(request.POST, request.FILES, instance=ticket.photo)
+        if all([ticket_form.is_valid(), photo_form.is_valid()]):
+            photo = photo_form.save(commit=False)
+            photo.user = request.user
+            photo.save()
+            ticket = ticket_form.save(commit=False)
+            ticket.user = request.user
+            ticket.photo = photo
+            ticket.save()
             return redirect('ticket',ticket.id)
     else:
-        form = TicketForm(instance=ticket)
+        ticket_form = TicketForm(instance=ticket)
+        photo_form = PhotoForm(instance=ticket.photo)
+    context = {
+    'ticket_form': ticket_form,
+    'photo_form': photo_form
+    }
     return render(request,
                   'feed/ticket_update.html',
-                  {'form' : form})
+                  context)
 
 @login_required
 def ticket_delete(request, ticket_id=None):
