@@ -2,9 +2,13 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.db.models import Q
 
 from feed.models import Ticket, Review, Photo
 from feed.forms import TicketForm, ReviewForm, PhotoForm, FollowUsersForm
+
+from itertools import chain
+
 
 @login_required
 def follow_users(request):
@@ -24,8 +28,19 @@ def feed(request):
     l'utilisateur, ainsi que ses propres tickets et critiques, le tout trié
     par ordre décroissant de date de création
     """
-    tickets = Ticket.objects.all()
-    return render(request,'feed/feed.html',{'tickets' : tickets})
+    # Construction de la liste à envoyer en context via querrys
+    tickets = Ticket.objects.filter(
+        Q(user__in=request.user.following.all()) | Q(user=request.user)
+    )
+    reviews = Review.objects.filter(
+        Q(user__in=request.user.following.all()) | Q(user=request.user)
+    )
+    tickets_and_reviews = sorted(
+        chain(tickets, reviews),
+        key= lambda instance: instance.time_created,
+        reverse= True
+    )
+    return render(request,'feed/feed.html',{'flux' : tickets_and_reviews})
 
 
 @login_required
@@ -118,7 +133,9 @@ def review_create(request):
     # créer une instance de notre formulaire et le remplir avec les données POST
         form = ReviewForm(request.POST)
         if form.is_valid():
-            review = form.save()
+            review = form.save(commit=False)
+            review.user = request.user
+            review.save()
             return redirect('review',review.id)
     else:
         form = ReviewForm()

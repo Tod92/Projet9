@@ -1,0 +1,8 @@
+{% block content %}
+<li>
+  review :
+  <a href="{% url 'review' review.id %}">{{ review.headline }}</a>
+  Crée par {{ review.user }}
+  - <a href="{% url 'review-update' review.id %}">[modifier]</a>
+</li>
+{% endblock %}

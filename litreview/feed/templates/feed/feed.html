@@ -1,19 +1,18 @@
 {% extends 'feed/base.html' %}
-
+{% load feed_extras %}
 {% block content %}
 
   <h1>Page feed</h1>
   <p>Listing de tickets abonnements + soi-même</p>
   <!-- TODO : liste des groupes -->
   <ul>
-    {% for ticket in tickets %}
-    {% if ticket.user == user %}
-    <li>
-      <a href="{% url 'ticket' ticket.id %}">{{ ticket.title }}</a>
-      Crée par {{ ticket.user }}
-      - <a href="{% url 'ticket-update' ticket.id %}">[modifier]</a>
-    </li>
-    {% endif %}
+    {% for instance in flux %}
+      {% if instance|model_type == 'Ticket' %}
+        {% include 'feed/partials/ticket_snippet.html' with ticket=instance %}
+      {% elif instance|model_type == 'Review' %}
+        {% include 'feed/partials/review_snippet.html' with review=instance %}
+      {% endif %}
+
     {% endfor %}
   </ul>
 {% endblock %}
