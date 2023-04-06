@@ -132,17 +132,37 @@ def review_create(request):
     if request.method == 'POST':
     # créer une instance de notre formulaire et le remplir avec les données POST
         form = ReviewForm(request.POST)
-        if form.is_valid():
+        ticket_form = TicketForm(request.POST)
+        photo_form = TicketPicForm(request.POST, request.FILES)
+
+        if all([form.is_valid(), ticket_form.is_valid()]):
+            photo = None
+            # Décalage de la condition pour que la photo ne soit pas obligatoire
+            if photo_form.is_valid():
+                photo = photo_form.save(commit=False)
+                photo.user = request.user
+                photo.save()
+            ticket = ticket_form.save(commit=False)
+            ticket.user = request.user
+            ticket.photo = photo
+            ticket.save()
             review = form.save(commit=False)
             review.user = request.user
+            review.ticket = ticket
             review.save()
             return redirect('review',review.id)
     else:
         form = ReviewForm()
-
+        ticket_form = TicketForm()
+        photo_form = TicketPicForm()
+    context = {
+        'form' : form,
+        'photo_form' : photo_form,
+        'ticket_form' : ticket_form
+    }
     return render(request,
                   'feed/review_create.html',
-                  {'form' : form})
+                  context)
 
 
 @login_required

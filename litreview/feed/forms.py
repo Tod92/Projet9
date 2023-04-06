@@ -23,7 +23,7 @@ class TicketForm(forms.ModelForm):
 class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
-        fields = ('ticket','rating', 'headline', 'body')
+        fields = ('headline', 'rating', 'body')
 
 class PhotoForm(forms.ModelForm):
     class Meta:
@@ -39,7 +39,7 @@ class AvatarPicForm(PhotoForm):
     class Meta:
         model = AvatarPic
         fields = ['image']
-        
+
 # class CreateTicketForm(forms.Form):
 #     title = forms.CharField(max_length=30)
 #     description = forms.CharField(max_length=1000)
