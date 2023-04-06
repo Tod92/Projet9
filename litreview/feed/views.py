@@ -4,12 +4,19 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 
 from feed.models import Ticket, Review, Photo
-from feed.forms import TicketForm, ReviewForm, PhotoForm
+from feed.forms import TicketForm, ReviewForm, PhotoForm, FollowUsersForm
+
+@login_required
+def follow_users(request):
+    form = FollowUsersForm(instance=request.user)
+    if request.method == 'POST':
+        form = FollowUsersForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('feed')
+    return render(request, 'feed/follow_users.html', context={'form': form})
 
 
-
-
-# Create your views here.
 @login_required
 def feed(request):
     """
@@ -21,9 +28,11 @@ def feed(request):
     return render(request,'feed/feed.html',{'tickets' : tickets})
 
 
+@login_required
 def ticket_detail(request, ticket_id=None):
     ticket = Ticket.objects.get(id=ticket_id)
     return render(request,'feed/ticket_detail.html', {'ticket' : ticket})
+
 
 @login_required
 def ticket_create(request):
@@ -55,6 +64,7 @@ def ticket_create(request):
                   'feed/ticket_create.html',
                   context)
 
+
 @login_required
 def ticket_update(request, ticket_id):
     ticket = Ticket.objects.get(id=ticket_id)
@@ -81,6 +91,7 @@ def ticket_update(request, ticket_id):
                   'feed/ticket_update.html',
                   context)
 
+
 @login_required
 def ticket_delete(request, ticket_id=None):
     ticket = Ticket.objects.get(id=ticket_id)
@@ -91,9 +102,11 @@ def ticket_delete(request, ticket_id=None):
     return render(request,'feed/ticket_delete.html', {'ticket' : ticket})
 
 
+@login_required
 def review_detail(request, review_id=None):
     review = Review.objects.get(id=review_id)
     return render(request,'feed/review_detail.html', {'review' : review})
+
 
 @login_required
 def review_create(request):
@@ -113,6 +126,8 @@ def review_create(request):
     return render(request,
                   'feed/review_create.html',
                   {'form' : form})
+
+
 @login_required
 def review_update(request, review_id):
     review = Review.objects.get(id=review_id)
@@ -128,6 +143,8 @@ def review_update(request, review_id):
     return render(request,
                   'feed/review_update.html',
                   {'form' : form})
+
+
 @login_required
 def review_delete(request, review_id=None):
     review = Review.objects.get(id=review_id)
@@ -152,7 +169,7 @@ def photo_upload(request):
             return redirect('feed')
     return render(request, 'feed/photo_upload.html', context={'form': form})
 
-
+# à supprimer après validation upload photos uniquement pour avatar user et tickets
 @login_required
 def photo_feed(request):
     photos = Photo.objects.all()
