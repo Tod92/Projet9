@@ -3,7 +3,7 @@ from django.conf import settings
 from django.db import models
 # Pillow pour manipulation images
 from PIL import Image
-# blog/models.py
+
 
 
 
@@ -27,11 +27,18 @@ class Photo(models.Model):
         super().save(*args, **kwargs)
         self.resize_image()
 
+class AvatarPic(Photo):
+    IMAGE_MAX_SIZE = (400, 400)
+
+class TicketPic(Photo):
+    IMAGE_MAX_SIZE = (800, 800)
+
+
 class Ticket(models.Model):
     def __str__(self):
         return self.title
     title = models.CharField(max_length=30)
-    photo = models.ForeignKey(Photo, null=True, on_delete=models.SET_NULL, blank=True)
+    photo = models.ForeignKey(TicketPic, null=True, on_delete=models.SET_NULL, blank=True)
     description = models.CharField(max_length=1000)
     user = models.ForeignKey(
         to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

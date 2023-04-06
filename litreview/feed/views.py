@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.db.models import Q
 
 from feed.models import Ticket, Review, Photo
-from feed.forms import TicketForm, ReviewForm, PhotoForm, FollowUsersForm
+from feed.forms import TicketForm, ReviewForm, PhotoForm, FollowUsersForm, TicketPicForm, AvatarPicForm
 
 from itertools import chain
 
@@ -53,12 +53,12 @@ def ticket_detail(request, ticket_id=None):
 def ticket_create(request):
     """
     Page de création d'un ticket (demande de critique) avec titre, description
-    et image.
+    et photo.
     """
     if request.method == 'POST':
     # créer une instance de notre formulaire et le remplir avec les données POST
         ticket_form = TicketForm(request.POST)
-        photo_form = PhotoForm(request.POST, request.FILES)
+        photo_form = TicketPicForm(request.POST, request.FILES)
         if all([ticket_form.is_valid(), photo_form.is_valid()]):
             photo = photo_form.save(commit=False)
             photo.user = request.user
@@ -70,7 +70,7 @@ def ticket_create(request):
             return redirect('ticket',ticket.id)
     else:
         ticket_form = TicketForm()
-        photo_form = PhotoForm()
+        photo_form = TicketPicForm()
     context = {
     'ticket_form': ticket_form,
     'photo_form': photo_form
@@ -85,7 +85,7 @@ def ticket_update(request, ticket_id):
     ticket = Ticket.objects.get(id=ticket_id)
     if request.method == 'POST':
         ticket_form = TicketForm(request.POST, instance=ticket)
-        photo_form = PhotoForm(request.POST, request.FILES, instance=ticket.photo)
+        photo_form = TicketPicForm(request.POST, request.FILES, instance=ticket.photo)
         if all([ticket_form.is_valid(), photo_form.is_valid()]):
             photo = photo_form.save(commit=False)
             photo.user = request.user
@@ -97,7 +97,7 @@ def ticket_update(request, ticket_id):
             return redirect('ticket',ticket.id)
     else:
         ticket_form = TicketForm(instance=ticket)
-        photo_form = PhotoForm(instance=ticket.photo)
+        photo_form = TicketPicForm(instance=ticket.photo)
     context = {
     'ticket_form': ticket_form,
     'photo_form': photo_form

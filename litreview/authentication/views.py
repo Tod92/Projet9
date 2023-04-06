@@ -5,7 +5,10 @@ from django.contrib.auth.decorators import login_required
 
 from authentication import forms
 
+from feed.forms import AvatarPicForm
 # Create your views here.
+
+
 
 def signup_page(request):
     form = forms.SignupForm()
@@ -17,6 +20,24 @@ def signup_page(request):
             login(request, user)
             return redirect(settings.LOGIN_REDIRECT_URL)
     return render(request, 'authentication/signup.html', context={'form': form})
+
+
+
+@login_required
+def upload_profile_photo(request):
+    photo_form = AvatarPicForm()
+    if request.method == 'POST':
+        user = request.user
+        photo_form = AvatarPicForm(request.POST, request.FILES)
+        if photo_form.is_valid():
+            photo = photo_form.save(commit=False)
+            photo.user = request.user
+            photo.save()
+            user.profile_photo = photo
+            user.save()
+            return redirect('feed')
+    return render(request, 'authentication/upload_profile_photo.html', context ={'form': photo_form})
+
 
 
 # def signup_page(request):
@@ -36,13 +57,3 @@ def signup_page(request):
 #         'profile_picture_form': profile_picture_form,
 #     }
 #     return render(request, 'authentication/signup.html', context=context)
-
-@login_required
-def upload_profile_photo(request):
-    form = forms.UploadProfilePhotoForm()
-    if request.method == 'POST':
-        form = forms.UploadProfilePhotoForm(request.POST, request.FILES,instance=request.user)
-        if form.is_valid():
-            user = form.save()
-            return redirect('feed')
-    return render(request, 'authentication/upload_profile_photo.html', context ={'form': form})
