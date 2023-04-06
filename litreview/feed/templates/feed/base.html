@@ -9,7 +9,7 @@
             <h1>LiteReview</h1>
             {% if user.is_authenticated %}
                 <p>Bonjour, {{ user }} !</p>
-                {% if user.profile_photo %}
+                {% if user.profile_photo.image %}
                     <img class="avatar" src={{ user.profile_photo.image.url }}>
                 {% else %}
                     <img class="avatar" src="{% static 'feed/images/default_profile.png'%}">

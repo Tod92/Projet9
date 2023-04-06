@@ -1,8 +1,15 @@
 {% block content %}
 <li>
-  ticket :
-  <a href="{% url 'ticket' ticket.id %}">{{ ticket.title }}</a>
-  Crée par {{ ticket.user }}
-  - <a href="{% url 'ticket-update' ticket.id %}">[modifier]</a>
+  <p>
+    Ticket : {{ ticket.title }}
+
+  </p>
+  <p>
+    Crée par <b>{{ ticket.user }}</b> le {{ ticket.time_created }}
+  </p>
+  <p>
+    <a href="{% url 'ticket' ticket.id %}">[détail]</a>
+    - <a href="{% url 'ticket-update' ticket.id %}">[modifier]</a>
+  </p>
 </li>
 {% endblock %}

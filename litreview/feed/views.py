@@ -92,6 +92,7 @@ def ticket_update(request, ticket_id):
             photo.save()
             ticket = ticket_form.save(commit=False)
             ticket.user = request.user
+
             ticket.photo = photo
             ticket.save()
             return redirect('ticket',ticket.id)

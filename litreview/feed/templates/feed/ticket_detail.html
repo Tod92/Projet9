@@ -5,7 +5,7 @@
   <h1>Détail du ticket {{ ticket.title }}</h1>
   <p>Titre : {{ ticket.title }}</p>
   <p>id :{{ ticket.id }}</p>
-  {% if ticket.photo %}
+  {% if ticket.photo.image %}
   <p><img src= '{{ ticket.photo.image.url }}'></p>
   {% endif %}
   <p>descritption :{{ ticket.description }}</p>
