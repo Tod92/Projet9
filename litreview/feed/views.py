@@ -30,7 +30,7 @@ def follow_users(request):
                 try :
                     aimed_user = User.objects.get(
                             username=searched_name
-                        )
+                    )
                     instance = UserFollows.objects.create(
                         user = request.user,
                         followed_user = aimed_user
@@ -40,12 +40,15 @@ def follow_users(request):
                     messages.warning(request, 'Utilisateur non trouvé')
             else:
                 messages.warning(request, 'Vous ne pouvez pas vous suivre vous-même')
-            #return redirect('feed')
     context = {
         'form': form,
         'following' : following,
-        'followers' : followers}
-    return render(request, 'feed/follow_users.html', context)
+        'followers' : followers
+        }
+    return render(request,
+                  'feed/follow_users.html',
+                  context
+                  )
 
 @login_required
 def follow_delete(request, follow_id=None):
@@ -72,13 +75,19 @@ def feed(request):
         key= lambda instance: instance.time_created,
         reverse= True
     )
-    return render(request,'feed/feed.html',{'flux' : tickets_and_reviews})
+    return render(request,
+                  'feed/feed.html',
+                  {'flux' : tickets_and_reviews}
+                  )
 
 
 @login_required
 def ticket_detail(request, ticket_id=None):
     ticket = Ticket.objects.get(id=ticket_id)
-    return render(request,'feed/ticket_detail.html', {'ticket' : ticket})
+    return render(request,
+                  'feed/ticket_detail.html',
+                  {'ticket' : ticket}
+                  )
 
 
 @login_required
@@ -109,7 +118,8 @@ def ticket_create(request):
     }
     return render(request,
                   'feed/ticket_create.html',
-                  context)
+                  context
+                  )
 
 
 @login_required
@@ -145,13 +155,19 @@ def ticket_delete(request, ticket_id=None):
         ticket.delete()
         return redirect('feed')
 
-    return render(request,'feed/ticket_delete.html', {'ticket' : ticket})
+    return render(request,
+                  'feed/ticket_delete.html',
+                  {'ticket' : ticket}
+                  )
 
 
 @login_required
 def review_detail(request, review_id=None):
     review = Review.objects.get(id=review_id)
-    return render(request,'feed/review_detail.html', {'review' : review})
+    return render(request,
+                  'feed/review_detail.html',
+                  {'review' : review}
+                  )
 
 
 @login_required
@@ -210,7 +226,8 @@ def review_update(request, review_id):
         form = ReviewForm(instance=review)
     return render(request,
                   'feed/review_update.html',
-                  {'form' : form})
+                  {'form' : form}
+                  )
 
 
 @login_required
@@ -220,25 +237,7 @@ def review_delete(request, review_id=None):
         review.delete()
         return redirect('feed')
 
-    return render(request,'feed/review_delete.html', {'review' : review})
-
-
-@login_required
-def photo_upload(request):
-    form = PhotoForm()
-    if request.method == 'POST':
-        form = PhotoForm(request.POST, request.FILES)
-        if form.is_valid():
-            photo = form.save(commit=False)
-            # set the uploader to the user before saving the model
-            photo.user = request.user
-            # now we can save
-            photo.save()
-            return redirect('feed')
-    return render(request, 'feed/photo_upload.html', context={'form': form})
-
-# à supprimer après validation upload photos uniquement pour avatar user et tickets
-@login_required
-def photo_feed(request):
-    photos = Photo.objects.all()
-    return render(request, 'feed/photo_feed.html', context={'photos': photos})
+    return render(request,
+                  'feed/review_delete.html',
+                  {'review' : review}
+                  )

@@ -50,8 +50,6 @@ urlpatterns = [
     path('reviews/<int:review_id>/', views.review_detail,name="review"),
     path('reviews/<int:review_id>/update/', views.review_update, name='review-update'),
     path('reviews/<int:review_id>/delete/', views.review_delete, name='review-delete'),
-    path('photos/add/', views.photo_upload, name='photo_upload'),
-    path('photos/', views.photo_feed)
 ]
 if settings.DEBUG:
     urlpatterns += static(
