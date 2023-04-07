@@ -1,10 +1,18 @@
 {% extends 'feed/base.html' %}
 {% block content %}
+
     <h2>Suivre des utilisateurs</h2>
     <form method="post">
         {{ form.as_p }}
         {% csrf_token %}
         <button type="submit" >Ajouter</button>
+        {% if messages %}
+          <ul class="messages">
+              {% for message in messages %}
+              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+              {% endfor %}
+          </ul>
+        {% endif %}
     </form>
     <h2>Mes utilisateurs suivis</h2>
     {% if following %}
@@ -25,6 +33,6 @@
         {% endfor %}
       </ul>
     {% else %}
-      Vous ne suivez personne actuellement
+      Personne ne vous suit actuellement
     {% endif %}
 {% endblock content %}

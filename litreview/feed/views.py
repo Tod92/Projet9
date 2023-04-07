@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.http import HttpResponse
 from django.db.models import Q
 
@@ -36,7 +37,9 @@ def follow_users(request):
                     )
                     instance.save()
                 except:
-                    pass
+                    messages.warning(request, 'Utilisateur non trouvé')
+            else:
+                messages.warning(request, 'Vous ne pouvez pas vous suivre vous-même')
             #return redirect('feed')
     context = {
         'form': form,
