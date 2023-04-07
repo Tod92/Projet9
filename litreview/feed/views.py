@@ -16,7 +16,7 @@ from itertools import chain
 def follow_users(request):
     form = FollowUsersForm()
     following = UserFollows.objects.filter(
-        user__in=request.user.following.all()
+        user=request.user
     )
     followers = UserFollows.objects.filter(
         followed_user=request.user
@@ -25,17 +25,18 @@ def follow_users(request):
         form = FollowUsersForm(request.POST)
         if form.is_valid():
             searched_name = form.cleaned_data['rechercher_un_utilisateur']
-            try :
-                aimed_user = User.objects.get(
-                        username=searched_name
+            if searched_name != request.user.username:
+                try :
+                    aimed_user = User.objects.get(
+                            username=searched_name
+                        )
+                    instance = UserFollows.objects.create(
+                        user = request.user,
+                        followed_user = aimed_user
                     )
-                instance = UserFollows.objects.create(
-                    user = request.user,
-                    followed_user = aimed_user
-                )
-                instance.save()
-            except:
-                pass
+                    instance.save()
+                except:
+                    pass
             #return redirect('feed')
     context = {
         'form': form,
@@ -43,6 +44,11 @@ def follow_users(request):
         'followers' : followers}
     return render(request, 'feed/follow_users.html', context)
 
+@login_required
+def follow_delete(request, follow_id=None):
+    follow = UserFollows.objects.get(id=follow_id)
+    follow.delete()
+    return redirect('follow-users')
 
 @login_required
 def feed(request):

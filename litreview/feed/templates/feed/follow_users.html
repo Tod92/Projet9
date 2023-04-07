@@ -4,17 +4,27 @@
     <form method="post">
         {{ form.as_p }}
         {% csrf_token %}
-        <button type="submit" >Confirmer</button>
+        <button type="submit" >Ajouter</button>
     </form>
     <h2>Mes utilisateurs suivis</h2>
     {% if following %}
       <ul>
-        {% for stalked in following %}
-          <li> {{stalked.user.username}}
+        {% for instance in following %}
+          <li> {{instance.followed_user.username}} -
+            <a href="{% url 'follow-delete' instance.id %}">Supprimer</a>
         {% endfor %}
       </ul>
     {% else %}
       Vous ne suivez personne actuellement
     {% endif %}
     <h2>Les utilisateurs qui me suivent</h2>
+    {% if followers %}
+      <ul>
+        {% for instance in followers %}
+          <li> {{instance.user.username}}
+        {% endfor %}
+      </ul>
+    {% else %}
+      Vous ne suivez personne actuellement
+    {% endif %}
 {% endblock content %}
