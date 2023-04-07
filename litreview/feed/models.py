@@ -33,7 +33,7 @@ class Photo(models.Model):
         super().delete(*args, **kwargs)
 
 class AvatarPic(Photo):
-    IMAGE_MAX_SIZE = (400, 400)
+    IMAGE_MAX_SIZE = (200, 200)
     # user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
 class TicketPic(Photo):
@@ -49,6 +49,18 @@ class Ticket(models.Model):
     user = models.ForeignKey(
         to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     time_created = models.DateTimeField(auto_now_add=True)
+
+    def update_photo(self, photo_object):
+        """
+        Demande à la photo actuelle de se supprimer et mets à jour avec la
+        photo envoyée en argument.
+        """
+        if self.photo:
+            self.photo.delete()
+        photo_object.save()
+        self.photo = photo_object
+        self.save()
+        return None
 
 
 class Review(models.Model):

@@ -7,18 +7,41 @@ from django.db.models import Q
 from feed.models import Ticket, Review, Photo
 from feed.forms import TicketForm, ReviewForm, PhotoForm, FollowUsersForm, TicketPicForm, AvatarPicForm
 
+from authentication.models import UserFollows, User
+
 from itertools import chain
 
 
 @login_required
 def follow_users(request):
-    form = FollowUsersForm(instance=request.user)
+    form = FollowUsersForm()
+    following = UserFollows.objects.filter(
+        user__in=request.user.following.all()
+    )
+    followers = UserFollows.objects.filter(
+        followed_user=request.user
+    )
     if request.method == 'POST':
-        form = FollowUsersForm(request.POST, instance=request.user)
+        form = FollowUsersForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('feed')
-    return render(request, 'feed/follow_users.html', context={'form': form})
+            searched_name = form.cleaned_data['rechercher_un_utilisateur']
+            try :
+                aimed_user = User.objects.get(
+                        username=searched_name
+                    )
+                instance = UserFollows.objects.create(
+                    user = request.user,
+                    followed_user = aimed_user
+                )
+                instance.save()
+            except:
+                pass
+            #return redirect('feed')
+    context = {
+        'form': form,
+        'following' : following,
+        'followers' : followers}
+    return render(request, 'feed/follow_users.html', context)
 
 
 @login_required
@@ -89,12 +112,10 @@ def ticket_update(request, ticket_id):
         if all([ticket_form.is_valid(), photo_form.is_valid()]):
             photo = photo_form.save(commit=False)
             photo.user = request.user
-            photo.save()
             ticket = ticket_form.save(commit=False)
             ticket.user = request.user
 
-            ticket.photo = photo
-            ticket.save()
+            ticket.update_photo(photo)
             return redirect('ticket',ticket.id)
     else:
         ticket_form = TicketForm(instance=ticket)

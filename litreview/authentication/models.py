@@ -23,7 +23,7 @@ class UserFollows(models.Model):
     user = models.ForeignKey(
         to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='follows')
     followed_user = models.ForeignKey(
-        to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='followers')
+        to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='followed_by')
     time_created = models.DateTimeField(auto_now_add=True)
     # class Meta:
     #     # ensures we don't get multiple UserFollows instances

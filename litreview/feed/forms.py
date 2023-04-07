@@ -1,16 +1,15 @@
 from django import forms
 
 from feed.models import Ticket, Review, Photo, TicketPic, AvatarPic
-
+from authentication.models import UserFollows
 
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
-class FollowUsersForm(forms.ModelForm):
-    class Meta:
-        model = User
-        fields = ['following']
+class FollowUsersForm(forms.Form):
+    rechercher_un_utilisateur = forms.CharField(max_length=30)
+
 
 
 class TicketForm(forms.ModelForm):
