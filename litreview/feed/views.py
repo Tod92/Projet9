@@ -79,6 +79,27 @@ def feed(request):
                   'feed/feed.html',
                   {'flux' : tickets_and_reviews}
                   )
+@login_required
+def my_posts(request):
+    """
+
+    """
+    # Construction de la liste à envoyer en context via querrys
+    tickets = Ticket.objects.filter(
+        user=request.user
+    )
+    reviews = Review.objects.filter(
+        user=request.user
+    )
+    tickets_and_reviews = sorted(
+        chain(tickets, reviews),
+        key= lambda instance: instance.time_created,
+        reverse= True
+    )
+    return render(request,
+                  'feed/my_posts.html',
+                  {'flux' : tickets_and_reviews}
+                  )
 
 
 @login_required

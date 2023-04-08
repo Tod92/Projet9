@@ -40,6 +40,7 @@ urlpatterns = [
          name='password_change_done'),
     path('upload_profile_photo/',authviews.upload_profile_photo,name='upload-profile-photo'),
     path('feed/', views.feed, name='feed'),
+    path('myposts/', views.my_posts, name='my-posts'),
     path('follow/', views.follow_users, name='follow-users'),
     path('follow/<int:follow_id>/delete/', views.follow_delete, name='follow-delete'),
     path('tickets/add/', views.ticket_create, name='ticket-add'),

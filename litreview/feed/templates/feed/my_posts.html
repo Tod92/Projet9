@@ -1,0 +1,18 @@
+{% extends 'feed/base.html' %}
+{% load feed_extras %}
+{% block content %}
+
+  <h1>Page MyPosts</h1>
+  <p>Listing de tickets et critiques crées par moi</p>
+  <!-- TODO : liste des groupes -->
+  <ul>
+    {% for instance in flux %}
+      {% if instance|model_type == 'Ticket' %}
+        {% include 'feed/partials/ticket_snippet.html' with ticket=instance %}
+      {% elif instance|model_type == 'Review' %}
+        {% include 'feed/partials/review_snippet.html' with review=instance %}
+      {% endif %}
+
+    {% endfor %}
+  </ul>
+{% endblock %}

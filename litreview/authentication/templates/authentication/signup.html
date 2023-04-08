@@ -6,4 +6,5 @@
         {% csrf_token %}
         <button type="submit" >Creer utilisateur</button>
     </form>
+    <a href="{% url 'login' %}">Retour à la page de connexion</a>
 {% endblock content %}
