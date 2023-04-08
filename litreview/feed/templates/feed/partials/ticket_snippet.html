@@ -1,11 +1,13 @@
 {% block content %}
+{% load feed_extras %}
+
 <li>
   <p>
     Ticket : {{ ticket.title }}
 
   </p>
   <p>
-    Crée par <b>{{ ticket.user }}</b> le {{ ticket.time_created }}
+    {% get_posted_at_display ticket.time_created %} par <b>{{ ticket.user }}</b>
   </p>
   <p>
     <a href="{% url 'ticket' ticket.id %}">[détail]</a>
