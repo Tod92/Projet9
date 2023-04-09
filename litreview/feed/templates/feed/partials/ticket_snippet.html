@@ -2,14 +2,15 @@
 {% load feed_extras %}
 
 
-<div class="card">
+<div class="card border-bottom">
   <div class="card-header">
     Ticket
   </div>
   <div class="card-body">
-    <img src=" {{ ticket.photo.image.url }} " class="card-img-top" alt="...">
-    <h5 class="card-title"> {{ ticket.title }} </h5>
+    <img src=" {{ ticket.photo.image.url }} " class="card-img-top" alt="..." style="height: 30rem;">
+    <h5 class="card-title border-bottom"> {{ ticket.title }} </h5>
     <p class="card-text"> {{ ticket.description }} </p>
+
     <div class="card-footer text-muted">
       {% get_posted_at_display ticket.time_created %} par
       <b>
@@ -22,9 +23,11 @@
     <br><br>
     </div>
     {% if ticket.user == request.user %}
+    <div class="d-flex align-items-center">
     <a href="{% url 'ticket-update' ticket.id %}" class="btn btn-primary">Modifier</a>
     <a href="{% url 'ticket-delete' ticket.id %}" class="btn btn-primary">Supprimer</a>
     {% endif %}
+    </div>
   </div>
 </div>
 

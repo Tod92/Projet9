@@ -4,25 +4,32 @@
 
 <h1>Mes flux</h1>
 
-  <div class="container">
+  <div class="container border-bottom">
     <div class="row">
-      <div class="col">
+      <div class="col-4">
         <a href="{% url 'ticket-add' %}" class="btn btn-primary">Créer ticket</a>
       </div>
-      <div class="col">
+      <div class="col-8">
         <a href="{% url 'review-add' %}" class="btn btn-primary">Créer critique</a>
       </div>
     </div>
+  <br><br>
   </div>
   <br><br>
-  {% for instance in page_obj %}
-    {% if instance|model_type == 'Ticket' %}
-      {% include 'feed/partials/ticket_snippet.html' with ticket=instance %}
-    {% elif instance|model_type == 'Review' %}
-      {% include 'feed/partials/review_snippet.html' with review=instance %}
-    {% endif %}
-  <br><br>
-  {% endfor %}
+  <div class="container">
+    {% for instance in page_obj %}
+      <div class="row">
+        <div class="col-6">
+        {% if instance|model_type == 'Ticket' %}
+          {% include 'feed/partials/ticket_snippet.html' with ticket=instance %}
+        {% elif instance|model_type == 'Review' %}
+          {% include 'feed/partials/review_snippet.html' with review=instance %}
+        {% endif %}
+        </div>
+      </div>
+      <br><br>
+    {% endfor %}
+  </div>
 
   <span>
       {% if page_obj.has_previous %}
