@@ -7,11 +7,15 @@
 
   </p>
   <p>
-    {% get_posted_at_display ticket.time_created %} par <b>{{ ticket.user }}</b>
+    {% get_posted_at_display ticket.time_created %} par
+    <b>{% if ticket.user == request.user %} moi
+    {% else %} {{ ticket.user}} {% endif %}</b>
   </p>
   <p>
     <a href="{% url 'ticket' ticket.id %}">[détail]</a>
+    {% if ticket.user == request.user %}
     - <a href="{% url 'ticket-update' ticket.id %}">[modifier]</a>
+    {% endif %}
   </p>
 </li>
 {% endblock %}

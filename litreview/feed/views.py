@@ -54,7 +54,8 @@ def follow_users(request):
 @login_required
 def follow_delete(request, follow_id=None):
     follow = UserFollows.objects.get(id=follow_id)
-    follow.delete()
+    if follow.user == request.user:
+        follow.delete()
     return redirect('follow-users')
 
 @login_required
@@ -155,6 +156,8 @@ def ticket_create(request):
 @login_required
 def ticket_update(request, ticket_id):
     ticket = Ticket.objects.get(id=ticket_id)
+    if ticket.user != request.user:
+        return redirect('feed')
     if request.method == 'POST':
         ticket_form = TicketForm(request.POST, instance=ticket)
         photo_form = TicketPicForm(request.POST, request.FILES, instance=ticket.photo)
@@ -181,6 +184,8 @@ def ticket_update(request, ticket_id):
 @login_required
 def ticket_delete(request, ticket_id=None):
     ticket = Ticket.objects.get(id=ticket_id)
+    if ticket.user != request.user:
+        return redirect('feed')
     if request.method == 'POST':
         ticket.delete()
         return redirect('feed')
@@ -245,6 +250,8 @@ def review_create(request):
 @login_required
 def review_update(request, review_id):
     review = Review.objects.get(id=review_id)
+    if review.user != request.user:
+        return redirect('feed')
     if request.method == 'POST':
         form = ReviewForm(request.POST, instance=review)
         if form.is_valid():
@@ -263,6 +270,8 @@ def review_update(request, review_id):
 @login_required
 def review_delete(request, review_id=None):
     review = Review.objects.get(id=review_id)
+    if review.user != request.user:
+        return redirect('feed')
     if request.method == 'POST':
         review.delete()
         return redirect('feed')

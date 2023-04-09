@@ -64,9 +64,18 @@ class Ticket(models.Model):
 
 
 class Review(models.Model):
+    ONE_TO_FIVE_RATING_CHOICES = (
+    (1, '1'),
+    (2, '2'),
+    (3, '3'),
+    (4, '4'),
+    (5, '5'),
+    )
     ticket = models.ForeignKey(to=Ticket, on_delete=models.CASCADE)
     rating = models.PositiveSmallIntegerField(
-        validators=[MinValueValidator(0), MaxValueValidator(5)])
+        choices=ONE_TO_FIVE_RATING_CHOICES,
+        validators=[MinValueValidator(0), MaxValueValidator(5)]
+        )
     headline = models.CharField(max_length=128)
     body = models.CharField(max_length=8192, blank=True)
     user = models.ForeignKey(

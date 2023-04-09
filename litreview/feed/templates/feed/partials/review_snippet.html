@@ -3,7 +3,11 @@
 <li>
   review :
   <a href="{% url 'review' review.id %}">{{ review.headline }}</a>
-  {% get_posted_at_display review.time_created %} par <b>{{ review.user }}</b>
+  {% get_posted_at_display review.time_created %} par
+  <b>{% if review.user == request.user %} moi
+  {% else %} {{ review.user}} {% endif %}</b>
+  {% if review.user == request.user %}
   - <a href="{% url 'review-update' review.id %}">[modifier]</a>
+  {% endif %}
 </li>
 {% endblock %}
