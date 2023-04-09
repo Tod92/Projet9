@@ -1,21 +1,31 @@
 {% block content %}
 {% load feed_extras %}
 
-<li>
-  <p>
-    Ticket : {{ ticket.title }}
 
-  </p>
-  <p>
-    {% get_posted_at_display ticket.time_created %} par
-    <b>{% if ticket.user == request.user %} moi
-    {% else %} {{ ticket.user}} {% endif %}</b>
-  </p>
-  <p>
-    <a href="{% url 'ticket' ticket.id %}">[détail]</a>
+<div class="card">
+  <div class="card-header">
+    Ticket
+  </div>
+  <div class="card-body">
+    <img src=" {{ ticket.photo.image.url }} " class="card-img-top" alt="...">
+    <h5 class="card-title"> {{ ticket.title }} </h5>
+    <p class="card-text"> {{ ticket.description }} </p>
+    <div class="card-footer text-muted">
+      {% get_posted_at_display ticket.time_created %} par
+      <b>
+        {% if ticket.user == request.user %}
+          moi
+        {% else %}
+          {{ ticket.user}}
+        {% endif %}
+      </b>
+    <br><br>
+    </div>
     {% if ticket.user == request.user %}
-    - <a href="{% url 'ticket-update' ticket.id %}">[modifier]</a>
+    <a href="{% url 'ticket-update' ticket.id %}" class="btn btn-primary">Modifier</a>
+    <a href="{% url 'ticket-delete' ticket.id %}" class="btn btn-primary">Supprimer</a>
     {% endif %}
-  </p>
-</li>
+  </div>
+</div>
+
 {% endblock %}
