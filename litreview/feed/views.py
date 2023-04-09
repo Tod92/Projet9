@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import HttpResponse
 from django.db.models import Q
+from django.core.paginator import Paginator
 
 from feed.models import Ticket, Review, Photo
 from feed.forms import TicketForm, ReviewForm, PhotoForm, FollowUsersForm, TicketPicForm, AvatarPicForm
@@ -75,9 +76,17 @@ def feed(request):
         key= lambda instance: instance.time_created,
         reverse= True
     )
+    paginator = Paginator(tickets_and_reviews,3)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        'page_obj' : page_obj
+    }
+
     return render(request,
                   'feed/feed.html',
-                  {'flux' : tickets_and_reviews}
+                  context=context
                   )
 @login_required
 def my_posts(request):

@@ -29,8 +29,8 @@ def get_posted_at_display(context, time):
     elif delta > HOUR_DELTA:
         result += 'il y a ' + str(int(delta.total_seconds() // 3600)) + ' heure(s)'
     elif delta > MINUTE_DELTA:
-        result += 'il y a ' + str(delta.minutes) + ' minute(s)'
+        result += 'il y a ' + str(int(delta.total_seconds() // 60 )) + ' minute(s)'
     else:
-        result += 'il y a ' + delta.strftime("%S") + ' seconde(s)'
+        result += 'il y a ' + str(int(delta.total_seconds())) + ' secondes(s)'
 
     return result
