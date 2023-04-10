@@ -2,12 +2,12 @@
 {% load feed_extras %}
 
 
-<div class="card">
+<div class="card border-secondary">
   <div class="card-header">
     Demande de critique
   </div>
   <div class="card-body">
-    <img src=" {{ ticket.photo.image.url }} " class="card-img-top mb-2" alt="...">
+    <img src=" {{ ticket.photo.image.url }} " class="card-img-top mb-2" style="max-width: 10rem; max-height: 15rem" alt="...">
     <h5 class="card-title border-bottom pb-2"> {{ ticket.title }} </h5>
     <p class="card-text"> {{ ticket.description }} </p>
 

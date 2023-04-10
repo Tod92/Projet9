@@ -82,6 +82,7 @@ def feed(request):
     page_obj = paginator.get_page(page_number)
 
     context = {
+        'page_title' : 'Mes Flux',
         'page_obj' : page_obj
     }
 
@@ -92,7 +93,7 @@ def feed(request):
 @login_required
 def my_posts(request):
     """
-
+    Reprise du template feed.html avec filtres differenciés
     """
     # Construction de la liste à envoyer en context via querrys
     tickets = Ticket.objects.filter(
@@ -106,9 +107,17 @@ def my_posts(request):
         key= lambda instance: instance.time_created,
         reverse= True
     )
+    paginator = Paginator(tickets_and_reviews,3)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        'page_title' : 'Mes Posts',
+        'page_obj' : page_obj
+    }
     return render(request,
-                  'feed/my_posts.html',
-                  {'flux' : tickets_and_reviews}
+                  'feed/feed.html',
+                  context=context
                   )
 
 
@@ -232,7 +241,7 @@ def review_create(request):
             review.user = request.user
             review.ticket = ticket
             review.save()
-            return redirect('review',review.id)
+            return redirect('feed')
     else:
         form = ReviewForm()
         ticket_form = TicketForm()
@@ -246,6 +255,30 @@ def review_create(request):
                   'feed/review_create.html',
                   context)
 
+@login_required
+def review_create_from_ticket(request, ticket_id):
+    if request.method == 'POST':
+    # créer une instance de notre formulaire et le remplir avec les données POST
+        form = ReviewForm(request.POST)
+        ticket = Ticket.objects.get(id=ticket_id)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.user = request.user
+            review.ticket = ticket
+            review.save()
+            return redirect('feed')
+
+    else:
+        form = ReviewForm()
+        ticket = Ticket.objects.get(id=ticket_id)
+
+    context = {
+        'form' : form,
+        'instance' : ticket
+    }
+    return render(request,
+                  'feed/review_create_from_ticket.html',
+                  context)
 
 @login_required
 def review_update(request, review_id):

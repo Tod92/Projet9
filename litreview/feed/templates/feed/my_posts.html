@@ -1,7 +1,55 @@
 {% extends 'feed/base.html' %}
 {% load feed_extras %}
 {% block content %}
+<div class="container border-bottom border-secondary mb-2">
+  <div class="row mb-2">
+    <h1 class="display-4">Mes Posts</h1>
+  </div>
+  <div class="row border-bottom border-secondary pb-2 mb-2">
+    <div class="col-md-4 offset-md-2">
+      <a href="{% url 'ticket-add' %}" class="btn btn-secondary">Demander une critique</a>
+    </div>
+    <div class="col-md-3">
+      <a href="{% url 'review-add' %}" class="btn btn-secondary">Créer une critique</a>
+    </div>
+  </div>
 
+
+
+
+  {% for instance in page_obj %}
+    <div class="row mb-3">
+      <div class="col-md-8 offset-md-1">
+      {% if instance|model_type == 'Ticket' %}
+        {% include 'feed/partials/ticket_snippet.html' with ticket=instance %}
+      {% elif instance|model_type == 'Review' %}
+        {% include 'feed/partials/review_snippet.html' with review=instance %}
+      {% endif %}
+      </div>
+    </div>
+  {% endfor %}
+
+
+  <div class="row">
+    <div class="col">
+
+      {% if page_obj.has_previous %}
+          <a href="?page=1" class="btn btn-secondary mx-2">« première</a>
+          <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-secondary mx-2">précédente</a>
+      {% endif %}
+
+      <span>
+          Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}.
+      </span>
+
+      {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}" class="btn btn-secondary mx-2">suivante</a>
+          <a href="?page={{ page_obj.paginator.num_pages }}" class="btn btn-secondary mx-2">dernière »</a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
   <h1>Page MyPosts</h1>
   <p>Listing de tickets et critiques crées par moi</p>
   <!-- TODO : liste des groupes -->

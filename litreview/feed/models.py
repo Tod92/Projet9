@@ -37,7 +37,7 @@ class AvatarPic(Photo):
     # user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
 class TicketPic(Photo):
-    IMAGE_MAX_SIZE = (800, 800)
+    IMAGE_MAX_SIZE = (400, 400)
 
 
 class Ticket(models.Model):

@@ -1,0 +1,18 @@
+{% extends 'feed/base.html' %}
+
+{% block content %}
+
+  <h2>Creation d'une critique en réponse à la demande de critique suivante :</h2>
+
+  {% include 'feed/partials/ticket_snippet.html' with ticket=instance %}
+
+  <!-- <form action="" method="post" novalidate> -->
+
+  <form action="" method="post" enctype="multipart/form-data" >
+    {% csrf_token %}
+    <h2>Création de la critique :</h2>
+    {{ form.as_p }}
+    <input type="submit" value="Envoyer">
+  </form>
+
+{% endblock %}
