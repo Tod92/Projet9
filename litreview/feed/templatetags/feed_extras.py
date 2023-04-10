@@ -7,6 +7,8 @@ MINUTE_DELTA = timezone.timedelta(minutes=1)
 HOUR_DELTA = timezone.timedelta(hours=1)
 DAY_DELTA = timezone.timedelta(days=1)
 
+STAR = "☆"
+
 
 @register.filter
 def model_type(value):
@@ -16,6 +18,15 @@ def model_type(value):
     nous retournera le nom de la classe en str
     """
     return type(value).__name__
+
+@register.filter
+def star_rating_display(value):
+
+    result = ""
+    for s in range(value):
+        result += STAR
+    return result
+
 
 @register.simple_tag(takes_context=True)
 def get_posted_at_display(context, time):
