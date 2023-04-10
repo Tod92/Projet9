@@ -16,17 +16,22 @@
     </form>
     <h2>Mes utilisateurs suivis</h2>
     {% if following %}
-      <ul class="list-group">
-        {% for instance in following %}
+      <div class="container-flex">
 
-          <li class="list-group-item">
-            <div class="container">
-              {{instance.followed_user.username}}
-              <a href="{% url 'follow-delete' instance.id %}" class="btn btn-secondary mx-2">Supprimer</a>
-            </div>
-          </li>
-        {% endfor %}
-      </ul>
+
+          {% for instance in following %}
+          <div class="row">
+              <div class="col-md-8 border border-secondary">
+                {{instance.followed_user.username}}
+              </div>
+              <div class="col-md-4">
+              <a href="{% url 'follow-delete' instance.id %}" class="btn btn-secondary">Supprimer</a>
+              </div>
+          </div>
+          {% endfor %}
+
+
+      </div>
     {% else %}
       Vous ne suivez personne actuellement
     {% endif %}
