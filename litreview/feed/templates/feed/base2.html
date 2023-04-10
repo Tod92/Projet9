@@ -1,0 +1,36 @@
+{% load static %}
+<html>
+    <head>
+        <title>LiteReview</title>
+        <link rel="stylesheet" href="{% static 'feed/app.css' %}">
+        <link rel="stylesheet" href="{% static 'feed/bootstrap.css' %}">
+    </head>
+    <body>
+        <div class="sidebar">
+            <h1>LiteReview</h1>
+            {% if user.is_authenticated %}
+                <p>Bienvenue, {{ user }} !</p>
+                {% if user.profile_photo.image %}
+                    <img class="avatar" src={{ user.profile_photo.image.url }}>
+                {% else %}
+                    <img class="avatar" src="{% static 'feed/images/default_profile.png'%}">
+                {% endif %}
+                <p><a href="{% url 'feed' %}">Flux</a></p>
+                <p><a href="{% url 'follow-users' %}">Abonnemens</a></p>
+                <p><a href="{% url 'my-posts' %}">Posts</a></p>
+                <p><a href="{% url 'ticket-add' %}">Nouveau ticket</a></p>
+                <p><a href="{% url 'review-add' %}">Nouvelle critique</a></p>
+                <p><a href="{% url 'upload-profile-photo' %}">Changer photo de profil</a></p>
+                <p><a href="{% url 'password-change' %}">Changer mot de passe</a></p>
+                <p><a href="{% url 'logout' %}">Se déconnecter</a></p>
+
+
+            {% else %}
+                <p> Merci de vous connecter afin d'accèder aux fonctionnalités de l'application </p>
+            {% endif %}
+        </div>
+        <div class="main">
+            {% block content %}{% endblock content %}
+        </div>
+    </body>
+</html>
