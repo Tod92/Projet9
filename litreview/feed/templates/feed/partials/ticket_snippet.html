@@ -2,13 +2,13 @@
 {% load feed_extras %}
 
 
-<div class="card border-bottom">
+<div class="card">
   <div class="card-header">
     Ticket
   </div>
   <div class="card-body">
-    <img src=" {{ ticket.photo.image.url }} " class="card-img-top" alt="..." style="height: 30rem;">
-    <h5 class="card-title border-bottom"> {{ ticket.title }} </h5>
+    <img src=" {{ ticket.photo.image.url }} " class="card-img-top mb-2" alt="...">
+    <h5 class="card-title border-bottom pb-2"> {{ ticket.title }} </h5>
     <p class="card-text"> {{ ticket.description }} </p>
 
     <div class="card-footer text-muted">
@@ -23,9 +23,9 @@
     <br><br>
     </div>
     {% if ticket.user == request.user %}
-    <div class="d-flex align-items-center">
-    <a href="{% url 'ticket-update' ticket.id %}" class="btn btn-primary">Modifier</a>
-    <a href="{% url 'ticket-delete' ticket.id %}" class="btn btn-primary">Supprimer</a>
+    <div class="d-flex justify-content-center">
+    <a href="{% url 'ticket-update' ticket.id %}" class="btn btn-secondary mx-2">Modifier</a>
+    <a href="{% url 'ticket-delete' ticket.id %}" class="btn btn-secondary mx-2">Supprimer</a>
     {% endif %}
     </div>
   </div>

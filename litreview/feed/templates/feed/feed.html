@@ -2,24 +2,27 @@
 {% load feed_extras %}
 {% block content %}
 
-<h1>Mes flux</h1>
 
-  <div class="container border-bottom">
-    <div class="row">
-      <div class="col-4">
-        <a href="{% url 'ticket-add' %}" class="btn btn-primary">Créer ticket</a>
+
+  <div class="container border-bottom border-secondary mb-2">
+    <div class="row mb-2">
+      <h1 class="display-4">Mes Flux</h1>
+    </div>
+    <div class="row border-bottom border-secondary pb-2 mb-2">
+      <div class="col-md-3 offset-md-2">
+        <a href="{% url 'ticket-add' %}" class="btn btn-secondary">Créer ticket</a>
       </div>
-      <div class="col-8">
-        <a href="{% url 'review-add' %}" class="btn btn-primary">Créer critique</a>
+      <div class="col-md-3">
+        <a href="{% url 'review-add' %}" class="btn btn-secondary">Créer critique</a>
       </div>
     </div>
-  <br><br>
-  </div>
-  <br><br>
-  <div class="container">
+
+
+
+
     {% for instance in page_obj %}
-      <div class="row">
-        <div class="col-6">
+      <div class="row mb-3">
+        <div class="col-md-8 offset-md-1">
         {% if instance|model_type == 'Ticket' %}
           {% include 'feed/partials/ticket_snippet.html' with ticket=instance %}
         {% elif instance|model_type == 'Review' %}
@@ -27,23 +30,23 @@
         {% endif %}
         </div>
       </div>
-      <br><br>
     {% endfor %}
+
+
+    <div class="row">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">« première</a>
+            <a href="?page={{ page_obj.previous_page_number }}">précédente</a>
+        {% endif %}
+
+        <span>
+            Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">suivante</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">dernière »</a>
+        {% endif %}
+    </div>
   </div>
-
-  <span>
-      {% if page_obj.has_previous %}
-          <a href="?page=1">« première</a>
-          <a href="?page={{ page_obj.previous_page_number }}">précédente</a>
-      {% endif %}
-
-      <span>
-          Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}.
-      </span>
-
-      {% if page_obj.has_next %}
-          <a href="?page={{ page_obj.next_page_number }}">suivante</a>
-          <a href="?page={{ page_obj.paginator.num_pages }}">dernière »</a>
-      {% endif %}
-  </span>
 {% endblock %}

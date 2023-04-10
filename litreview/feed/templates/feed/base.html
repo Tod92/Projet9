@@ -20,19 +20,16 @@
 
       <div class="collapse navbar-collapse justify-content-center px-4" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item px-4">
+          <li class="nav-item px-2">
             <a class="nav-link" href="{% url 'feed' %}"><b>Flux</b></a>
           </li>
-          <li class="nav-item px-4">
+          <li class="nav-item px-2">
             <a class="nav-link" href="{% url 'follow-users' %}"><b>Abonnemens</b></a>
           </li>
-          <li class="nav-item px-4">
+          <li class="nav-item px-2">
             <a class="nav-link" href="{% url 'my-posts' %}"><b>Posts</b></a>
           </li>
-          <span class="navbar-text align-self-end">
-            Connecté(e) en tant que {{ user }}
-          </span>
-          <li class="nav-item dropdown">
+          <li class="nav-item px-2">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               {% if user.profile_photo.image %}
                   <img src="{{ user.profile_photo.image.url }}" width="40" height="40">
@@ -47,6 +44,9 @@
               <a class="dropdown-item" href="{% url 'logout' %}">Se déconnecter</a>
             </div>
           </li>
+          <span class="navbar-text align-self-end">
+            Connecté(e) en tant que {{ user }}
+          </span>
 
 
         </ul>
@@ -57,11 +57,12 @@
       </span>
       {% endif %}
     </nav>
-
-    <div class ="container-fluid" style="padding-top : 70px;">
-      <div class="row">
-        <div class="main">
-          {% block content %}{% endblock content %}
+    <div class="main" style="padding-top : 70px;">
+      <div class ="container-fluid">
+        <div class="row">
+          <div class="col-md-8 offset-md-2">
+              {% block content %}{% endblock content %}
+          </div>
         </div>
       </div>
     </div>
