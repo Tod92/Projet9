@@ -12,7 +12,6 @@
       {{ review.rating|star_rating_display }}
     </p>
     <p class="card-text"> {{ review.body }} </p>
-
     <div class="card-footer text-muted mb-2">
       {% get_posted_at_display review.time_created %} par
       <b>
@@ -23,13 +22,12 @@
         {% endif %}
       </b>
     </div>
-    {% if review.user == request.user %}
     <div class="d-flex justify-content-center mb-2">
-    <a href="{% url 'review-update' review.id %}" class="btn btn-secondary mx-2">Modifier</a>
-    <a href="{% url 'review-delete' review.id %}" class="btn btn-secondary mx-2">Supprimer</a>
+      {% if review.user == request.user %}
+        <a href="{% url 'review-update' review.id %}" class="btn btn-secondary mx-2">Modifier</a>
+        <a href="{% url 'review-delete' review.id %}" class="btn btn-secondary mx-2">Supprimer</a>
+      {% endif %}
     </div>
-    {% endif %}
-
     <div class="container ">
         <div>
         {% include 'feed/partials/ticket_snippet.html' with ticket=review.ticket %}

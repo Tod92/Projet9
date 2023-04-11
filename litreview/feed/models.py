@@ -50,6 +50,12 @@ class Ticket(models.Model):
         to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     time_created = models.DateTimeField(auto_now_add=True)
 
+    def get_review(self):
+        """
+        Retourne la review associée si trouvée
+        """
+        return Review.objects.filter(ticket=self)
+        
     def update_photo(self, photo_object):
         """
         Demande à la photo actuelle de se supprimer et mets à jour avec la

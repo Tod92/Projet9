@@ -7,7 +7,11 @@
     Demande de critique
   </div>
   <div class="card-body">
+    {% if ticket.photo.image %}
     <img src=" {{ ticket.photo.image.url }} " class="card-img-top mb-2" style="max-width: 10rem; max-height: 15rem" alt="...">
+    {% else %}
+    <div class="bg-secondary rounded" style="width: 100%; height: 15rem"></div>
+    {% endif %}
     <h5 class="card-title border-bottom pb-2"> {{ ticket.title }} </h5>
     <p class="card-text"> {{ ticket.description }} </p>
 
@@ -21,13 +25,17 @@
         {% endif %}
       </b>
     </div>
-    {% if ticket.user == request.user %}
-    <div class="d-flex justify-content-center">
-    <a href="{% url 'ticket-update' ticket.id %}" class="btn btn-secondary mx-2">Modifier</a>
-    <a href="{% url 'ticket-delete' ticket.id %}" class="btn btn-secondary mx-2">Supprimer</a>
-    </div>
-    {% endif %}
 
+
+    <div class="d-flex justify-content-center">
+      {% if not ticket.get_review %}
+        <a href="{% url 'review-add-from-ticket' ticket.id %}" class="btn btn-secondary mx-2">Répondre</a>
+      {% endif %}
+      {% if ticket.user == request.user %}
+        <a href="{% url 'ticket-update' ticket.id %}" class="btn btn-secondary mx-2">Modifier</a>
+        <a href="{% url 'ticket-delete' ticket.id %}" class="btn btn-secondary mx-2">Supprimer</a>
+      {% endif %}
+    </div>
   </div>
 </div>
 

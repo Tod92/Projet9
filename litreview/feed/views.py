@@ -148,7 +148,7 @@ def ticket_create(request):
             ticket.user = request.user
             ticket.photo = photo
             ticket.save()
-            return redirect('ticket',ticket.id)
+            return redirect('feed')
     else:
         ticket_form = TicketForm()
         photo_form = TicketPicForm()
@@ -177,7 +177,7 @@ def ticket_update(request, ticket_id):
             ticket.user = request.user
 
             ticket.update_photo(photo)
-            return redirect('ticket',ticket.id)
+            return redirect('feed')
     else:
         ticket_form = TicketForm(instance=ticket)
         photo_form = TicketPicForm(instance=ticket.photo)
@@ -291,7 +291,7 @@ def review_update(request, review_id):
             review = form.save(commit=False)
             review.user = request.user
             review = form.save()
-            return redirect('review',review.id)
+            return redirect('feed')
     else:
         form = ReviewForm(instance=review)
     return render(request,
