@@ -4,7 +4,9 @@
     <form method="post">
         {{ form.as_p }}
         {% csrf_token %}
-        <button type="submit" >Se connecter</button>
+        <!-- <button type="submit" >Se connecter</button> -->
+        <button type="submit" class="btn btn-secondary" >Se connecter</button>
+
     </form>
     <p>Pas de compte ? <a href="{% url 'signup' %}">Inscrivez-vous maintenant !</a></p>
 {% endblock content %}

@@ -5,7 +5,7 @@
     <form method="post">
         {{ form.as_p }}
         {% csrf_token %}
-        <button type="submit" >Ajouter</button>
+        <button type="submit" class="btn btn-secondary" >Ajouter</button>
         {% if messages %}
           <ul class="messages">
               {% for message in messages %}

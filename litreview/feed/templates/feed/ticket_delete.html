@@ -2,11 +2,11 @@
 
 {% block content %}
 
-  <h1>CONFIRMATION SUPPRESSION du ticket </h1>
+  <h1>CONFIRMATION SUPPRESSION TICKET</h1>
   <b>Etes-vous sur de vouloir supprimer {{ ticket.title }} ? </b>
   <form action="" method="post">
     {% csrf_token %}
-    <input type="submit" value="Supprimer">
+    <input type="submit" class="btn btn-secondary" value="Supprimer">
   </form>
 
 {% endblock %}
