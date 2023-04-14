@@ -55,7 +55,7 @@ class Ticket(models.Model):
         Retourne la review associée si trouvée
         """
         return Review.objects.filter(ticket=self)
-        
+
     def update_photo(self, photo_object):
         """
         Demande à la photo actuelle de se supprimer et mets à jour avec la
@@ -70,7 +70,8 @@ class Ticket(models.Model):
 
 
 class Review(models.Model):
-    ONE_TO_FIVE_RATING_CHOICES = (
+    ZERO_TO_FIVE_RATING_CHOICES = (
+    (0, '0'),
     (1, '1'),
     (2, '2'),
     (3, '3'),
@@ -79,7 +80,7 @@ class Review(models.Model):
     )
     ticket = models.ForeignKey(to=Ticket, on_delete=models.CASCADE)
     rating = models.PositiveSmallIntegerField(
-        choices=ONE_TO_FIVE_RATING_CHOICES,
+        choices=ZERO_TO_FIVE_RATING_CHOICES,
         validators=[MinValueValidator(0), MaxValueValidator(5)]
         )
     headline = models.CharField(max_length=128)

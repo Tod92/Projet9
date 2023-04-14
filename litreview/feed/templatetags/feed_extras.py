@@ -7,7 +7,8 @@ MINUTE_DELTA = timezone.timedelta(minutes=1)
 HOUR_DELTA = timezone.timedelta(hours=1)
 DAY_DELTA = timezone.timedelta(days=1)
 
-STAR = "☆"
+STAR_EMPTY = "☆"
+STAR_FULL = "★"
 
 
 @register.filter
@@ -24,7 +25,8 @@ def star_rating_display(value):
 
     result = ""
     for s in range(value):
-        result += STAR
+        result += STAR_FULL
+    result += (5 - value) * STAR_EMPTY
     return result
 
 
