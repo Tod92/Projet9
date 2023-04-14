@@ -13,13 +13,36 @@ class FollowUsersForm(forms.Form):
 
 
 class TicketForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['title'].label = ""
+        self.fields['description'].label = ""
+
+
     class Meta:
         model = Ticket
-        # fields = '__all__'
         fields = ('title', 'description')
-        # exclude = ('user','descrition')
+        widgets = {
+        'title': forms.TextInput(attrs={
+            'class': "form-control",
+            'placeholder': 'Titre'
+            }),
+        'description': forms.Textarea(attrs={
+            'class': "form-control",
+            'placeholder': 'Description'
+            })
+        }
+
+
 
 class ReviewForm(forms.ModelForm):
+    CHOICES = [('0', 0),
+               ('1', 1),
+               ('2', 2),
+               ('3', 3),
+               ('4', 4),
+               ('5', 5)]
+    rating = forms.ChoiceField(widget=forms.RadioSelect, choices=CHOICES)
     class Meta:
         model = Review
         fields = ('headline', 'rating', 'body')

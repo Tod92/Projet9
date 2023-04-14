@@ -4,7 +4,7 @@
     <form method="post" enctype="multipart/form-data">
         {{ form.as_p }}
         {% csrf_token %}
+        <a href="{% url 'login' %}" class="btn btn-secondary">Retour</a>
         <button type="submit" class="btn btn-secondary">Creer utilisateur</button>
     </form>
-    <a href="{% url 'login' %}">Retour à la page de connexion</a>
 {% endblock content %}
