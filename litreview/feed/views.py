@@ -16,6 +16,10 @@ from itertools import chain
 
 @login_required
 def follow_users(request):
+    """
+    Page "abonnements" pour visualiser/ajouter/supprimer des utilisateurs suivis
+    Géré par objets UserFollows (voir models)
+    """
     form = FollowUsersForm()
     following = UserFollows.objects.filter(
         user=request.user
@@ -38,14 +42,20 @@ def follow_users(request):
                     )
                     instance.save()
                 except:
-                    messages.warning(request, 'Utilisateur non trouvé')
+                    messages.add_message(request,
+                                         messages.WARNING,
+                                         'Utilisateur non trouvé',
+                                         extra_tags="alert alert-warning")
             else:
-                messages.warning(request, 'Vous ne pouvez pas vous suivre vous-même')
+                    messages.add_message(request,
+                                         messages.WARNING,
+                                         'Vous ne pouvez pas vous suivre vous-même',
+                                         extra_tags="alert alert-warning")
     context = {
-        'form': form,
-        'following' : following,
-        'followers' : followers
-        }
+    'form': form,
+    'following' : following,
+    'followers' : followers
+    }
     return render(request,
                   'feed/follow_users.html',
                   context
@@ -55,6 +65,10 @@ def follow_users(request):
 def follow_delete(request, follow_id=None):
     follow = UserFollows.objects.get(id=follow_id)
     if follow.user == request.user:
+        messages.add_message(request,
+                             messages.SUCCESS,
+                             'Vous ne suivez plus ' + str(follow.followed_user),
+                             extra_tags="alert alert-success")
         follow.delete()
     return redirect('follow-users')
 
@@ -93,7 +107,8 @@ def feed(request):
 @login_required
 def my_posts(request):
     """
-    Reprise du template feed.html avec filtres differenciés
+    Reprise du template feed.html avec filtres differenciés et ajout page_title
+    dans le context
     """
     # Construction de la liste à envoyer en context via querrys
     tickets = Ticket.objects.filter(
@@ -148,6 +163,11 @@ def ticket_create(request):
             ticket.user = request.user
             ticket.photo = photo
             ticket.save()
+            messages.add_message(request,
+                                 messages.SUCCESS,
+                                 'Ticket crée avec succès',
+                                 extra_tags="alert alert-success")
+
             return redirect('feed')
     else:
         ticket_form = TicketForm()
@@ -175,8 +195,12 @@ def ticket_update(request, ticket_id):
             photo.user = request.user
             ticket = ticket_form.save(commit=False)
             ticket.user = request.user
-
             ticket.update_photo(photo)
+            messages.add_message(request,
+                                 messages.SUCCESS,
+                                 'Ticket mis à jour avec succès',
+                                 extra_tags="alert alert-success")
+
             return redirect('feed')
     else:
         ticket_form = TicketForm(instance=ticket)
@@ -197,6 +221,11 @@ def ticket_delete(request, ticket_id=None):
         return redirect('feed')
     if request.method == 'POST':
         ticket.delete()
+        messages.add_message(request,
+                             messages.SUCCESS,
+                             'Ticket supprimé avec succès',
+                                 extra_tags="alert alert-success")
+
         return redirect('feed')
 
     return render(request,
@@ -217,8 +246,7 @@ def review_detail(request, review_id=None):
 @login_required
 def review_create(request):
     """
-    Page de création d'une critique en réponse au ticket selectionné, création
-    de ticket imposée si ticket_id=None. Titre, note et commentaire.
+    Page de création d'une critique et d'un ticket associé via multi-formulaire
     """
     if request.method == 'POST':
     # créer une instance de notre formulaire et le remplir avec les données POST
@@ -241,6 +269,11 @@ def review_create(request):
             review.user = request.user
             review.ticket = ticket
             review.save()
+            messages.add_message(request,
+                                 messages.SUCCESS,
+                                 'Critique créée avec succès',
+                                 extra_tags="alert alert-success")
+
             return redirect('feed')
     else:
         form = ReviewForm()
@@ -266,6 +299,10 @@ def review_create_from_ticket(request, ticket_id):
             review.user = request.user
             review.ticket = ticket
             review.save()
+            messages.add_message(request,
+                                 messages.SUCCESS,
+                                 'Critique créée avec succès',
+                                 extra_tags="alert alert-success")
             return redirect('feed')
 
     else:
@@ -291,6 +328,10 @@ def review_update(request, review_id):
             review = form.save(commit=False)
             review.user = request.user
             review = form.save()
+            messages.add_message(request,
+                                 messages.SUCCESS,
+                                 'Critique mise à jour avec succès',
+                                 extra_tags="alert alert-success")
             return redirect('feed')
     else:
         form = ReviewForm(instance=review)
@@ -307,6 +348,10 @@ def review_delete(request, review_id=None):
         return redirect('feed')
     if request.method == 'POST':
         review.delete()
+        messages.add_message(request,
+                             messages.SUCCESS,
+                             'Critique supprimée avec succès',
+                             extra_tags="alert alert-success")
         return redirect('feed')
 
     return render(request,

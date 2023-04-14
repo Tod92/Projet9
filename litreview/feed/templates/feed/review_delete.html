@@ -2,8 +2,8 @@
 
 {% block content %}
 
-  <h1>CONFIRMATION SUPPRESSION de la critique</h1>
-  <b>Etes-vous sur de vouloir supprimer {{ ticket.title }} ? </b>
+  <h1>CONFIRMATION SUPPRESSION CRITIQUE</h1>
+  <b>Etes-vous sur de vouloir supprimer {{ review.headline }} ? </b>
   <form action="" method="post">
     {% csrf_token %}
     <input type="submit" value="Supprimer">

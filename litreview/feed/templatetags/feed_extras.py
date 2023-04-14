@@ -36,7 +36,7 @@ def get_posted_at_display(context, time):
     delta = now - time
 
     if delta > DAY_DELTA:
-        result += 'à ' + time.strftime("%H:%M:%S")
+        result += 'le ' + time.strftime("%d/%m") + ' à ' + time.strftime("%H:%M")
     elif delta > HOUR_DELTA:
         result += 'il y a ' + str(int(delta.total_seconds() // 3600)) + ' heure(s)'
     elif delta > MINUTE_DELTA:
