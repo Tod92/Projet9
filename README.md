@@ -53,27 +53,31 @@ _Installation de venv requise : pip install venv_
 * Penser à désactiver l'environnement virtuel :\
   `deactivate`
 
-## Vues
+## Tests de l'application :
 
-Le site presente un film en vedette, meilleur film par note imdb, première réponse de la requete api GET : "?sort_by=-imdb_score&imdb_score_min=9"
+La base de donnée a été peuplée avec les comptes et mots de passe de test suivants :
 
-Le site presente ensuite 3 bandeaux de films, chacun contenant 4 pages de 7 films pouvant defiler via des boutons flèches gauches et droites.
-Les bandeaux de films presentent les résultats aux requetes API suivantes :
-* "Meilleurs scores ImDb" : "?sort_by=-imdb_score&imdb_score_min=9"
- (en evitant le premier résultat qui a été isolé pour la vignette meilleur film)
-* "Meilleurs films d'animation": "?sort_by=-imdb_score&genre_contains=Animation"
-* "Meilleurs films de Tarantino" : "?sort_by=imdb_score&writer_contains=tarantino&director_contains=tarantino"
+user : bart
+password : LisaEstNulle
+
+user : lisa
+password : BartEstNul
+
+user : marge
+password : ILoveOmer
 
 
 
 ## Historique
 
-* 24/02/2023 : Finalisation v1 projet et documentation
-* 23/02/2023 : Ajout fenetre modale
-* 20/02/2023 : Ajout flèches et fonctions clic
-* 18/02/2023 : Vues rows de films avec css
-* 17/02/2023 : Lien Js <> Api fonctionnel
-* 10/02/2023 : Démarrage du projet
+* 17/04/2023 : Finalisation et tests avec popoulation de la base de données
+* 14/04/2023 : Avancement mise en forme CSS via bootstrap
+* 10/04/2023 : Finalisation des fonctionnalités de création/modification/suppression
+* 08/04/2023 : Integration abonnements à d'autres utilistaurs
+* 06/04/2023 : Ajout gestion des photos (users + posts)
+* 04/04/2023 : Creation tickets et reviews
+* 30/03/2023 : Gestion Users (inscription + connexion)
+* 28/03/2023 : Démarrage du projet
 
 ## Credits
 Projet réalisé par Thomas DERUERE\
