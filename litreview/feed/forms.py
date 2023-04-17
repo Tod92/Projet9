@@ -13,6 +13,7 @@ class FollowUsersForm(forms.Form):
 
 
 class TicketForm(forms.ModelForm):
+    # Surcharge de l'init afin de retirer les labels et utiliser placeholders
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['title'].label = ""
@@ -35,6 +36,7 @@ class TicketForm(forms.ModelForm):
 
 
 
+
 class ReviewForm(forms.ModelForm):
     CHOICES = [('0', 0),
                ('1', 1),
@@ -42,10 +44,31 @@ class ReviewForm(forms.ModelForm):
                ('3', 3),
                ('4', 4),
                ('5', 5)]
-    rating = forms.ChoiceField(widget=forms.RadioSelect, choices=CHOICES)
+    # Problème de passage du Radioselect à l'horizontal :
+    # rating = forms.ChoiceField(widget=forms.RadioSelect, choices=CHOICES)
+
+    rating = forms.ChoiceField(choices=CHOICES)
+
+
+    # Surcharge de l'init afin de retirer les labels et utiliser placeholders
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['headline'].label = ""
+        self.fields['body'].label = ""
+
     class Meta:
         model = Review
         fields = ('headline', 'rating', 'body')
+        widgets = {
+        'headline': forms.TextInput(attrs={
+            'class': "form-control",
+            'placeholder': 'Titre de la critique'
+            }),
+        'body': forms.Textarea(attrs={
+            'class': "form-control",
+            'placeholder': 'Saisir votre critique ici'
+            })
+        }
 
 class PhotoForm(forms.ModelForm):
     class Meta:
