@@ -6,11 +6,11 @@ Son objectif est de developper une application Web permettant à une communauté
 
 L'application developpée via le framework Django doit notamment comprendre les fonctionnalités suivantes :
 
-Inscription sur le site afin de disposer d'un compte utilisateur et d'un mot de passe
-Accès aux fonctionnalités du site uniquement aux utilisateurs connectés
-Abonnements à d'autres utilisateurs afin de visualiser leurs contenus (tickets et critiques)
-Création d'un ticket ("demande de critique") avec ajout possible d'image
-Création d'une critique en réponse à un ticket ou avec création de ticket
+Inscription sur le site afin de disposer d'un compte utilisateur et d'un mot de passe\
+Accès aux fonctionnalités du site uniquement aux utilisateurs connectés\
+Abonnements à d'autres utilisateurs afin de visualiser leurs contenus (tickets et critiques)\
+Création d'un ticket ("demande de critique") avec ajout possible d'image\
+Création d'une critique en réponse à un ticket ou avec création de ticket\
 
 
 
