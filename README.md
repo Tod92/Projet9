@@ -57,13 +57,13 @@ _Installation de venv requise : pip install venv_
 
 La base de donnée a été peuplée avec les comptes et mots de passe de test suivants :
 
-user : bart
+user : bart\
 password : LisaEstNulle
 
-user : lisa
+user : lisa\
 password : BartEstNul
 
-user : marge
+user : marge\
 password : ILoveOmer
 
 
