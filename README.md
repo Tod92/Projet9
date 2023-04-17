@@ -17,7 +17,7 @@ Création d'une critique en réponse à un ticket ou avec création de ticket
 ## Installation
 
 * Installer Python 3.11 :
- https://www.python.org/
+ https://www.python.org/  \
   _Compatibilité avec d'autres versions probable mais non testée_
 
 * Télécharger et extraire le repository suivant depuis github :\
@@ -27,7 +27,7 @@ https://github.com/Tod92/Projet9
   `..\Projet9-main\`
 
 * Créer l'environnement virtuel :\
-_Installation de venv requise : pip install venv_
+_Installation de venv requise : pip install venv_\
   `python -m venv env`
 
 * Activer l'environnement virtuel :\
