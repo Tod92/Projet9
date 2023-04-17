@@ -1,8 +1,11 @@
 # Openclassrooms - Développez une application Web en utilisant Django
 
 MVP (Minimal Viable Product) du projet LITReview.
+
 Son objectif est de developper une application Web permettant à une communauté d'utilisateurs de consulter ou de solliciter une critique de livres à la demande.
+
 L'application developpée via le framework Django doit notamment comprendre les fonctionnalités suivantes :
+
 Inscription sur le site afin de disposer d'un compte utilisateur et d'un mot de passe
 Accès aux fonctionnalités du site uniquement aux utilisateurs connectés
 Abonnements à d'autres utilisateurs afin de visualiser leurs contenus (tickets et critiques)
@@ -20,19 +23,34 @@ Création d'une critique en réponse à un ticket ou avec création de ticket
 * Télécharger et extraire le repository suivant depuis github :\
 https://github.com/Tod92/Projet9
 
-<!-- * Se positionner dans le répértoire où le repository a été extrait :\
+* Se positionner dans le répértoire où le repository a été extrait :\
   `..\Projet9-main\`
 
 * Créer l'environnement virtuel :\
+_Installation de venv requise : pip install venv_
   `python -m venv env`
 
 * Activer l'environnement virtuel :\
-  `..\Projet4-main\env\Scripts\activate.bat`
+  `..\Projet9-main\env\Scripts\activate`
 
 * Installer les packages Python néçessaire à l'execution du script :\
-  `(env)..\Projet4-main\pip install -r requirements.txt`
+  `(env)..\Projet9-main\pip install -r requirements.txt`
 
 * Installation terminée. Désactivation de l'environnement virtuel :\
+  `deactivate`
+
+## Execution du Serveur web en local :
+
+* L'environnement virtuel doit etre activé :\
+  `..\Projet9-main\env\Scripts\activate`
+
+* Executer le script python :\
+  `..\Projet9-main\litereview\python manage.py runserver`
+
+* Depuis votre navigateur web :\
+  `http://127.0.0.1:8000`
+
+* Penser à désactiver l'environnement virtuel :\
   `deactivate`
 
 ## Vues
@@ -59,4 +77,4 @@ Les bandeaux de films presentent les résultats aux requetes API suivantes :
 
 ## Credits
 Projet réalisé par Thomas DERUERE\
-Assisté par Idriss BEN GELOUNE (Mentor Openclassrooms) -->
+Assisté par Idriss BEN GELOUNE (Mentor Openclassrooms)
