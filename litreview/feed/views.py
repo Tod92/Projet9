@@ -80,17 +80,21 @@ def feed(request):
     par ordre décroissant de date de création
     """
     # Construction de la liste à envoyer en context via querrys
-    tickets = Ticket.objects.filter(
-        Q(user__in=request.user.following.all()) | Q(user=request.user)
-    )
+    user_tickets = Ticket.objects.filter(user=request.user)
+
+    followed_tickets = Ticket.objects.filter(
+        Q(user__in=request.user.following.all())
+        )
+        
     reviews = Review.objects.filter(
-        Q(user__in=request.user.following.all()) | Q(user=request.user)
+        Q(user__in=request.user.following.all()) | Q(user=request.user) | Q(ticket__in=user_tickets)
     )
     tickets_and_reviews = sorted(
-        chain(tickets, reviews),
+        chain(user_tickets, followed_tickets, reviews),
         key= lambda instance: instance.time_created,
         reverse= True
     )
+
     paginator = Paginator(tickets_and_reviews,3)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
