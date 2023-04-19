@@ -50,7 +50,7 @@ _Installation de venv requise : pip install venv_\
 * Depuis votre navigateur web :\
   `http://127.0.0.1:8000`
 
-* Penser à désactiver l'environnement virtuel :\
+* Après avoir utilisé le site, penser à désactiver l'environnement virtuel :\
   `deactivate`
 
 ## Tests de l'application :
@@ -88,15 +88,15 @@ Si l'utilisateur connecté à crée un ticket et sa review associée, les deux e
 * Abonnements:\
 Ajout d'utilisateurs suivis via champ de texte : La correspondance parfaite avec le nom d'utilisateur doit etre saisie afin de voir l'utilisateur apparaitre dans la liste des utilisateurs suivis. Les posts de ce derniers apparaitraitrons dans la section flux.\
 Un bouton à côté de l'utilisateur suivi dans la liste permet de se désabonner de celui-ci.\
-Une liste des utilisateurs abonnés à l'utilisateur connecté apparait également sur cette page.\
+Une liste des utilisateurs abonnés à l'utilisateur connecté apparait également sur cette page.
 
 * Gestion de l'utilisateur:\
 Fonction d'ajout de photo de profil pour l'utilisateur connecté.\
-Fonctionn de changement de mot passe pour l'utilisateur connecté.\
+Fonctionn de changement de mot passe pour l'utilisateur connecté.
 
 ## Historique
 
-* 17/04/2023 : Finalisation et tests avec popoulation de la base de données
+* 17/04/2023 : Finalisation et tests avec population de la base de données
 * 14/04/2023 : Avancement mise en forme CSS via bootstrap
 * 10/04/2023 : Finalisation des fonctionnalités de création/modification/suppression
 * 08/04/2023 : Integration abonnements à d'autres utilistaurs
