@@ -5,13 +5,12 @@ from django.db import models
 from PIL import Image
 
 
-
-
 class Photo(models.Model):
 
     image = models.ImageField(blank=True)
     caption = models.CharField(max_length=128, blank=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)
     time_created = models.DateTimeField(auto_now_add=True)
 
     IMAGE_MAX_SIZE = (800, 800)
@@ -23,18 +22,23 @@ class Photo(models.Model):
             # Sauvegarde de l’image redimensionnée dans le système de fichiers
             # ce n’est pas la méthode save() du modèle !
             image.save(self.image.path)
+
     # Surcharge de la fonction save pour y ajouter la resize systematiquement
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         self.resize_image()
-    # Surchage pour suppression du fichier du serveur media
-    def delete(self, *args, **kwargs):
-        #os.remove(self.image.path)
-        super().delete(*args, **kwargs)
+
+    # # Surchage pour suppression du fichier du serveur media
+    # def delete(self, *args, **kwargs):
+    #     #os.remove(self.image.path)
+    #     super().delete(*args, **kwargs)
+
 
 class AvatarPic(Photo):
     IMAGE_MAX_SIZE = (200, 200)
-    # user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    # user = models.OneToOneField(settings.AUTH_USER_MODEL,
+    #                             on_delete=models.CASCADE)
+
 
 class TicketPic(Photo):
     IMAGE_MAX_SIZE = (400, 400)
@@ -44,7 +48,10 @@ class Ticket(models.Model):
     def __str__(self):
         return self.title
     title = models.CharField(max_length=30)
-    photo = models.ForeignKey(TicketPic, null=True, on_delete=models.SET_NULL, blank=True)
+    photo = models.ForeignKey(TicketPic,
+                              null=True,
+                              on_delete=models.SET_NULL,
+                              blank=True)
     description = models.CharField(max_length=1000)
     user = models.ForeignKey(
         to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -71,13 +78,13 @@ class Ticket(models.Model):
 
 class Review(models.Model):
     ZERO_TO_FIVE_RATING_CHOICES = (
-    (0, '0'),
-    (1, '1'),
-    (2, '2'),
-    (3, '3'),
-    (4, '4'),
-    (5, '5'),
-    )
+                                    (0, '0'),
+                                    (1, '1'),
+                                    (2, '2'),
+                                    (3, '3'),
+                                    (4, '4'),
+                                    (5, '5'),
+                                    )
     ticket = models.ForeignKey(to=Ticket, on_delete=models.CASCADE)
     rating = models.PositiveSmallIntegerField(
         choices=ZERO_TO_FIVE_RATING_CHOICES,
